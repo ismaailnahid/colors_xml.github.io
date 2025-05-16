@@ -1,0 +1,564 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XML Color Replacer Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-color: #ffffff;
+  --accent: #bb86fc;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --border-color: #333333;
+  --scrollbar-bg: #2d2d2d;
+  --scrollbar-thumb: #444444;
+  --scrollbar-thumb-hover: #555555;
+  --input-bg: #2d2d2d;
+  --input-border: #404040;
+  --button-hover: #9965f4;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 6px;
+  border: 3px solid var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  padding: 0;
+  min-height: 100vh;
+}
+
+header {
+  background: var(--card-bg);
+  padding: 15px;
+  box-shadow: 0 2px 8px var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+  font-size: clamp(18px, 4vw, 24px);
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.container {
+  width: 95%;
+  max-width: 960px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 4px 12px var(--shadow);
+  margin-bottom: 20px;
+  overflow-x: hidden;
+  border: 1px solid var(--border-color);
+}
+
+textarea {
+  width: 100%;
+  height: clamp(150px, 30vh, 250px);
+  font-family: monospace;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  font-size: clamp(14px, 2.5vw, 16px);
+  resize: vertical;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(98, 0, 234, 0.1);
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+.button-group button {
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  font-size: clamp(12px, 2.5vw, 14px);
+  flex: 1;
+  min-width: max-content;
+  white-space: nowrap;
+}
+
+.button-group button:hover {
+  background: var(--button-hover);
+  transform: translateY(-1px);
+}
+
+.color-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.color-inputs label {
+  font-weight: bold;
+  font-size: clamp(14px, 2.5vw, 16px);
+}
+
+.color-inputs input[type="text"] {
+  max-width: 100px;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-color);
+}
+
+.color-inputs input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(98, 0, 234, 0.1);
+}
+
+.preset-colors {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.preset-color {
+  width: clamp(25px, 5vw, 30px);
+  height: clamp(25px, 5vw, 30px);
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.preset-color:hover {
+  border-color: var(--accent);
+  transform: scale(1.1);
+}
+
+#colorArea {
+  color: var(--text-color);
+}
+
+#colorArea h3 {
+  margin-bottom: 15px;
+  color: var(--accent);
+  font-size: clamp(16px, 3vw, 20px);
+}
+
+.color-item {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 5px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.color-item:hover {
+  background: var(--input-bg);
+}
+
+.color-item input[type="checkbox"] {
+  width: clamp(16px, 3vw, 18px);
+  height: clamp(16px, 3vw, 18px);
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+.color-item label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(14px, 2.5vw, 16px);
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+
+.color-swatch {
+  display: inline-block;
+  width: clamp(18px, 3vw, 20px);
+  height: clamp(18px, 3vw, 20px);
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.selection-controls {
+  margin: 10px 0 20px 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.selection-controls button {
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: clamp(12px, 2.5vw, 14px);
+  flex: 1;
+  min-width: max-content;
+}
+
+.selection-controls button:hover {
+  background: var(--button-hover);
+  transform: translateY(-1px);
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: clamp(14px, 2.5vw, 16px);
+  background: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background: var(--accent);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background: var(--button-hover);
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .button-group {
+    justify-content: center;
+  }
+
+  .button-group button {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .color-inputs {
+    justify-content: center;
+  }
+
+  .color-item label code {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+
+  .button-group {
+    justify-content: flex-start;
+  }
+}
+
+@media (min-width: 769px) {
+  .container {
+    padding: 20px;
+  }
+
+  .card {
+    padding: 25px;
+  }
+
+  .button-group {
+    justify-content: flex-start;
+  }
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🎨 Color Replacer</div>
+  </header>
+  <div class="container">
+    <div class="card">
+      <input type="file" id="xmlFile" accept=".xml">
+      <textarea id="input" placeholder="Paste or upload your XML here..."  spellcheck="false" ></textarea>
+      <div class="button-group">
+        <button onclick="extractColors()">Show Colors</button>
+        <button onclick="replaceSelected()">Replace Selected</button>
+        <button onclick="replaceAll()">Replace All</button>
+        <button onclick="downloadXML('colors.xml')">Download</button>
+        <button onclick="downloadXML('theme_values.xml')">Download Theme</button>
+        <button onclick="undo()">Undo</button>
+        <button onclick="redo()">Redo</button>
+        <button onclick="resetText()">Reset</button>
+        
+        
+      </div>
+      <div class="color-inputs">
+        <label for="newColor">New Color:</label>
+        <input type="color" id="newColor" value="#ff0000">
+        <input type="text" id="newColorText" value="#ff0000" maxlength="7" aria-label="New color hex code">
+        <span id="newColorHex">#ff0000</span>
+      </div>
+      <div class="preset-colors" id="presetColors"></div>
+    </div>
+
+    <div id="colorArea" class="card">
+    </div>
+  </div>
+
+  <script>
+    const presetColors = ['#ff1686d0','#ff006378','#ff00ff62','#ff061d2e','#b80a2e39','#ff041c30','#ffffc300','#ffff7e29','#ffff5ca1','#ffe68585','#ff7646ff','#00000000'];
+    const historyStack = [], redoStack = [];
+
+    function hex8ToHex6(hex) {
+      if (!hex) return "#000000";
+      if (hex.length === 9) return "#" + hex.slice(3);
+      return hex;
+    }
+
+    function updateColorInputs(color) {
+      let color6 = hex8ToHex6(color);
+      document.getElementById('newColor').value = color6;
+      document.getElementById('newColorText').value = color6;
+      document.getElementById('newColorHex').innerText = color6;
+    }
+
+    function renderPresetColors() {
+      const container = document.getElementById("presetColors");
+      container.innerHTML = "";
+      presetColors.forEach(color => {
+        const div = document.createElement("div");
+        div.className = "preset-color";
+        div.style.backgroundColor = hex8ToHex6(color);
+        div.title = color;
+        div.onclick = () => updateColorInputs(color);
+        container.appendChild(div);
+      });
+    }
+
+    function saveState() {
+      historyStack.push(document.getElementById("input").value);
+      if (historyStack.length > 100) historyStack.shift();
+      redoStack.length = 0;
+    }
+
+    function undo() {
+      if (historyStack.length > 1) {
+        redoStack.push(historyStack.pop());
+        document.getElementById("input").value = historyStack[historyStack.length - 1];
+      }
+    }
+
+    function redo() {
+      if (redoStack.length > 0) {
+        const state = redoStack.pop();
+        historyStack.push(state);
+        document.getElementById("input").value = state;
+      }
+    }
+
+    function resetText() {
+      if (confirm("Are you sure to reset?")) {
+        saveState();
+        document.getElementById("input").value = "";
+        document.getElementById("colorArea").innerHTML = "";
+      }
+    }
+
+    document.getElementById("newColor").addEventListener("input", e => {
+      document.getElementById("newColorText").value = e.target.value;
+      document.getElementById("newColorHex").innerText = e.target.value;
+    });
+
+    document.getElementById("newColorText").addEventListener("input", e => {
+      const val = e.target.value;
+      if (/^#([0-9a-f]{6})$/i.test(val)) {
+        document.getElementById("newColor").value = val;
+        document.getElementById("newColorHex").innerText = val;
+      }
+    });
+
+    document.getElementById("xmlFile").addEventListener("change", function (e) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        document.getElementById("input").value = reader.result;
+        saveState();
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+
+    function selectAllColors() {
+      document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = true);
+    }
+    function deselectAllColors() {
+      document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = false);
+    }
+    function invertSelection() {
+      document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = !cb.checked);
+    }
+
+    function extractColors() {
+  const text = document.getElementById("input").value;
+  // এখানে 6 বা 8 ক্যারেক্টারের হেক্স কালার সমর্থন
+ const regex = /<color\s+name="([^"]+)">([^<]+)<\/color>/g;
+  const matches = [...text.matchAll(regex)];
+
+  const container = document.getElementById("colorArea");
+  container.innerHTML = '<h3>🎨 Found Colors:</h3>';
+
+  if (matches.length === 0) {
+    container.innerHTML += "<p>No colors found.</p>";
+    return;
+  }
+
+  const controlsDiv = document.createElement('div');
+  controlsDiv.className = 'selection-controls';
+  controlsDiv.innerHTML = `
+    <button onclick="selectAllColors()">Select All</button>
+    <button onclick="deselectAllColors()">Deselect All</button>
+    <button onclick="invertSelection()">Invert Selection</button>
+  `;
+  container.appendChild(controlsDiv);
+
+  matches.forEach(match => {
+    const colorName = match[1];
+    const hex = match[2];
+    const div = document.createElement("div");
+    div.className = "color-item";
+    div.innerHTML = `
+      <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
+      <label for="chk-${colorName}">
+        <span class="color-swatch" style="background:${hex};"></span> 
+        <code>${colorName} — ${hex}</code>
+      </label>
+    `;
+    container.appendChild(div);
+  });
+}
+
+  function replaceSelected() {
+  saveState();
+  const textArea = document.getElementById("input");
+  let text = textArea.value;
+  const newColor = document.getElementById("newColorText").value.trim();
+
+  // সব সিলেক্টেড চেকবক্স নিয়ে আসা
+  const selected = document.querySelectorAll("#colorArea input[type='checkbox']:checked");
+
+  if (selected.length === 0) {
+    alert("Please select at least one color to replace.");
+    return;
+  }
+
+  selected.forEach(cb => {
+    const oldColor = cb.getAttribute("data-target");
+    // Replace all instances of oldColor with newColor in the text
+    // Use global and case-insensitive regex
+    const regex = new RegExp(oldColor, "gi");
+    text = text.replace(regex, newColor);
+  });
+
+  textArea.value = text;
+}
+
+
+    function replaceAll() {
+      saveState();
+      const textArea = document.getElementById("input");
+      let text = textArea.value;
+      const newColor = document.getElementById("newColorText").value;
+      const regex = /<color\s+name="[^"]+">(#(?:[0-9a-fA-F]{3,6}))<\/color>/g;
+      text = text.replace(regex, (match, hex) => match.replace(hex, newColor));
+      textArea.value = text;
+      extractColors();
+    }
+
+    function downloadXML(filename) {
+      const text = document.getElementById("input").value;
+      const blob = new Blob([text], { type: "text/xml" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+    }
+
+    renderPresetColors();
+    saveState();
+  </script>
+</body>
+</html>
