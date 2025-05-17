@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -7,24 +7,296 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
 :root {
-  --bg-color: #121212;
-  --card-bg: #1e1e1e;
-  --text-color: #ffffff;
-  --accent: #bb86fc;
-  --shadow: rgba(0, 0, 0, 0.3);
-  --border-color: #333333;
-  --scrollbar-bg: #2d2d2d;
-  --scrollbar-thumb: #444444;
-  --scrollbar-thumb-hover: #555555;
-  --input-bg: #2d2d2d;
-  --input-border: #404040;
+  --bg-color: #181c24;
+  --card-bg: #23283a;
+  --text-color: #c7e0d1;
+  --accent: #1686d0;
+  --shadow: 0 6px 24px rgba(0,0,0,0.35), 0 1.5px 1.5px rgba(255,255,255,0.08) inset;
+  --border-color: #2d3142;
+  --scrollbar-bg: #23283a;
+  --scrollbar-thumb: #444;
+  --scrollbar-thumb-hover: #bb86fc;
+  --input-bg: #23283a;
+  --input-border: #404060;
   --button-hover: #9965f4;
 }
 
-* {
-  box-sizing: border-box;
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #23283a 0%, #181c24 100%);
+  color: var(--text-color);
+  min-height: 100vh;
   margin: 0;
-  padding: 0;
+}
+
+header {
+  background: var(--card-bg);
+  padding: 18px 0 18px 0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px solid var(--accent);
+}
+
+.logo {
+  font-size: clamp(22px, 5vw, 32px);
+  font-weight: bold;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px #000, 0 1px 0 #fff2;
+}
+
+.container {
+  width: 98%;
+  max-width: 980px;
+  margin: 30px auto;
+  padding: 0 10px;
+}
+
+.card {
+  background: linear-gradient(135deg, #23283a 60%, #23283a 100%);
+  border-radius: 20px;
+  padding: 22px 18px;
+  box-shadow: 0 8px 32px 0 #000a, 0 2px 8px #bb86fc22 inset;
+  margin-bottom: 24px;
+  border: 1.5px solid var(--border-color);
+  overflow-x: hidden;
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  height: clamp(170px, 32vh, 260px);
+  font-family: monospace;
+  border: 2px solid var(--input-border);
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  font-size: clamp(15px, 2.5vw, 17px);
+  resize: vertical;
+  box-shadow: 0 2px 8px #0004 inset;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px #bb86fc33, 0 2px 8px #0004 inset;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0;
+  justify-content: center;
+}
+
+.button-group button,
+.selection-controls button {
+  background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: clamp(13px, 2.5vw, 15px);
+  box-shadow: 0 3px 12px #0005, 0 1px 1px #fff1 inset;
+  transition: all 0.2s cubic-bezier(.4,2,.3,1);
+  min-width: max-content;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+.button-group button:hover,
+.selection-controls button:hover {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
+}
+.color-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.color-inputs label {
+  font-weight: bold;
+  font-size: clamp(15px, 2.5vw, 17px);
+}
+
+.color-inputs input[type="text"] {
+  max-width: 110px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 2px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-color);
+  font-size: 15px;
+  box-shadow: 0 1px 4px #0002 inset;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.color-inputs input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px #bb86fc33, 0 1px 4px #0002 inset;
+}
+
+.color-inputs input[type="color"] {
+  border: none;
+  background: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px #0003;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.color-inputs input[type="color"]:hover {
+  box-shadow: 0 4px 16px #bb86fc55;
+}
+
+.preset-colors {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.preset-color {
+  width: clamp(28px, 5vw, 34px);
+  height: clamp(28px, 5vw, 34px);
+  border-radius: 50%;
+  border: 2.5px solid var(--border-color);
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0005, 0 1px 1px #fff2 inset;
+  transition: all 0.2s;
+}
+
+.preset-color:hover {
+  border-color: var(--accent);
+  transform: scale(1.13);
+  box-shadow: 0 6px 18px #bb86fc55, 0 1px 1px #fff2 inset;
+}
+
+#colorArea {
+  color: var(--text-color);
+}
+
+#colorArea h3 {
+  margin-bottom: 18px;
+  color: var(--accent);
+  font-size: clamp(18px, 3vw, 22px);
+  text-shadow: 0 1px 4px #0003;
+}
+
+.color-item {
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 6px;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 8px #0002;
+  background: linear-gradient(135deg, #23283a 80%, #23283a 100%);
+}
+
+.color-item:hover {
+  background: #23283a;
+  box-shadow: 0 4px 16px #bb86fc33;
+}
+
+.color-item input[type="checkbox"] {
+  width: clamp(18px, 3vw, 22px);
+  height: clamp(18px, 3vw, 22px);
+  cursor: pointer;
+  accent-color: var(--accent);
+  background: #232323;
+  border: 2.5px solid #444;
+  border-radius: 7px;
+  box-shadow: 0 2px 8px #0006, 0 1px 1px #fff2 inset;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.color-item input[type="checkbox"]:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px #bb86fc55, 0 1px 1px #fff2 inset;
+}
+
+.color-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(15px, 2.5vw, 17px);
+  flex-wrap: wrap;
+  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.color-swatch {
+  display: inline-block;
+  width: clamp(22px, 3vw, 26px);
+  height: clamp(22px, 3vw, 26px);
+  border-radius: 50%;
+  border: 2.5px solid var(--border-color);
+  vertical-align: middle;
+  box-shadow: 0 2px 8px #0005, 0 1px 1px #fff2 inset;
+  margin-right: 2px;
+}
+
+.selection-controls {
+  margin: 12px 0 22px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  font-size: clamp(15px, 2.5vw, 17px);
+  background: var(--input-bg);
+  color: var(--text-color);
+  border: 2px solid var(--input-border);
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px #0002 inset;
+  box-sizing: border-box;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+  color: white;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: clamp(13px, 2.5vw, 15px);
+  box-shadow: 0 3px 12px #0005, 0 1px 1px #fff1 inset;
+  transition: all 0.2s cubic-bezier(.4,2,.3,1);
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
+  transform: translateY(-2px) scale(1.04);
 }
 
 ::-webkit-scrollbar {
@@ -50,302 +322,89 @@
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+  box-sizing: border-box;
 }
 
-body {
-  font-family: 'Roboto', sans-serif;
-  background: var(--bg-color);
-  color: var(--text-color);
-  padding: 0;
-  min-height: 100vh;
+/* Responsive styles */
+@media (max-width: 900px) {
+  .container {
+    max-width: 99vw;
+    padding: 0 2vw;
+  }
+  .card {
+    padding: 14px 6px;
+    border-radius: 14px;
+  }
+  .button-group {
+    gap: 7px;
+  }
 }
 
-header {
-  background: var(--card-bg);
-  padding: 15px;
-  box-shadow: 0 2px 8px var(--shadow);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.logo {
-  font-size: clamp(18px, 4vw, 24px);
-  font-weight: bold;
-  color: var(--accent);
-}
-
-.container {
-  width: 95%;
-  max-width: 960px;
-  margin: 20px auto;
-  padding: 10px;
-}
-
-.card {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 15px;
-  box-shadow: 0 4px 12px var(--shadow);
-  margin-bottom: 20px;
-  overflow-x: hidden;
-  border: 1px solid var(--border-color);
-}
-
-textarea {
-  width: 100%;
-  height: clamp(150px, 30vh, 250px);
-  font-family: monospace;
-  border: 1px solid var(--input-border);
-  border-radius: 8px;
-  padding: 10px;
-  background: var(--input-bg);
-  color: var(--text-color);
-  font-size: clamp(14px, 2.5vw, 16px);
-  resize: vertical;
-}
-
-textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(98, 0, 234, 0.1);
-}
-
-.button-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 15px 0;
-}
-
-.button-group button {
-  background: var(--accent);
-  border: none;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  font-size: clamp(12px, 2.5vw, 14px);
-  flex: 1;
-  min-width: max-content;
-  white-space: nowrap;
-}
-
-.button-group button:hover {
-  background: var(--button-hover);
-  transform: translateY(-1px);
-}
-
-.color-inputs {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 15px;
-  flex-wrap: wrap;
-}
-
-.color-inputs label {
-  font-weight: bold;
-  font-size: clamp(14px, 2.5vw, 16px);
-}
-
-.color-inputs input[type="text"] {
-  max-width: 100px;
-  padding: 5px;
-  border-radius: 4px;
-  border: 1px solid var(--input-border);
-  background: var(--input-bg);
-  color: var(--text-color);
-}
-
-.color-inputs input[type="text"]:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(98, 0, 234, 0.1);
-}
-
-.preset-colors {
-  display: flex;
-  gap: 8px;
-  margin-top: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.preset-color {
-  width: clamp(25px, 5vw, 30px);
-  height: clamp(25px, 5vw, 30px);
-  border-radius: 50%;
-  border: 2px solid var(--border-color);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.preset-color:hover {
-  border-color: var(--accent);
-  transform: scale(1.1);
-}
-
-#colorArea {
-  color: var(--text-color);
-}
-
-#colorArea h3 {
-  margin-bottom: 15px;
-  color: var(--accent);
-  font-size: clamp(16px, 3vw, 20px);
-}
-
-.color-item {
-  margin: 10px 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  padding: 5px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease;
-}
-
-.color-item:hover {
-  background: var(--input-bg);
-}
-
-.color-item input[type="checkbox"] {
-  width: clamp(16px, 3vw, 18px);
-  height: clamp(16px, 3vw, 18px);
-  cursor: pointer;
-  accent-color: var(--accent);
-}
-
-.color-item label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: clamp(14px, 2.5vw, 16px);
-  flex-wrap: wrap;
-  cursor: pointer;
-}
-
-.color-swatch {
-  display: inline-block;
-  width: clamp(18px, 3vw, 20px);
-  height: clamp(18px, 3vw, 20px);
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-  vertical-align: middle;
-}
-
-.selection-controls {
-  margin: 10px 0 20px 0;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.selection-controls button {
-  background: var(--accent);
-  border: none;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  font-size: clamp(12px, 2.5vw, 14px);
-  flex: 1;
-  min-width: max-content;
-}
-
-.selection-controls button:hover {
-  background: var(--button-hover);
-  transform: translateY(-1px);
-}
-
-input[type="file"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: clamp(14px, 2.5vw, 16px);
-  background: var(--input-bg);
-  color: var(--text-color);
-  border: 1px solid var(--input-border);
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-input[type="file"]::-webkit-file-upload-button {
-  background: var(--accent);
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-}
-
-input[type="file"]::-webkit-file-upload-button:hover {
-  background: var(--button-hover);
-}
-
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .container {
     width: 100%;
-    padding: 10px;
+    max-width: 100vw;
+    padding: 0 2vw;
+    margin: 10px 0;
   }
-  
   .card {
-    padding: 12px;
-    border-radius: 12px;
+    padding: 8px 2vw;
+    border-radius: 10px;
   }
-
   .button-group {
-    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
   }
+  .color-inputs {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .preset-colors {
+    gap: 6px;
+  }
+  .color-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 7px 2px;
+  }
+  .color-item label code {
+    font-size: 13px;
+    word-break: break-all;
+  }
+  #colorArea h3 {
+    font-size: 17px;
+  }
+  .selection-controls {
+    flex-direction: column;
+    gap: 7px;
+    align-items: stretch;
+  }
+  input[type="file"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
 
-  .button-group button {
-    padding: 8px 10px;
+@media (max-width: 400px) {
+  .logo {
+    font-size: 16px;
+  }
+  .card {
+    padding: 4px 1vw;
+  }
+  .button-group button,
+  .selection-controls button {
+    font-size: 12px;
+    padding: 7px 8px;
+  }
+  .color-inputs label {
     font-size: 13px;
   }
-
-  .color-inputs {
-    justify-content: center;
-  }
-
-  .color-item label code {
-    font-size: 12px;
-  }
 }
 
-@media (min-width: 481px) and (max-width: 768px) {
-  .container {
-    width: 95%;
-  }
-
-  .button-group {
-    justify-content: flex-start;
-  }
-}
-
-@media (min-width: 769px) {
-  .container {
-    padding: 20px;
-  }
-
-  .card {
-    padding: 25px;
-  }
-
-  .button-group {
-    justify-content: flex-start;
-  }
-}
   </style>
 </head>
 <body>
@@ -364,9 +423,6 @@ input[type="file"]::-webkit-file-upload-button:hover {
         <button onclick="downloadXML('theme_values.xml')">Download Theme</button>
         <button onclick="undo()">Undo</button>
         <button onclick="redo()">Redo</button>
-        <button onclick="resetText()">Reset</button>
-        
-        
       </div>
       <div class="color-inputs">
         <label for="newColor">New Color:</label>
@@ -384,6 +440,8 @@ input[type="file"]::-webkit-file-upload-button:hover {
   <script>
     const presetColors = ['#ff1686d0','#ff006378','#ff00ff62','#ff061d2e','#b80a2e39','#ff041c30','#ffffc300','#ffff7e29','#ffff5ca1','#ffe68585','#ff7646ff','#00000000'];
     const historyStack = [], redoStack = [];
+    let initialState = "";
+    let colorFilter = "";
 
     function hex8ToHex6(hex) {
       if (!hex) return "#000000";
@@ -421,6 +479,7 @@ input[type="file"]::-webkit-file-upload-button:hover {
       if (historyStack.length > 1) {
         redoStack.push(historyStack.pop());
         document.getElementById("input").value = historyStack[historyStack.length - 1];
+        extractColors();
       }
     }
 
@@ -429,14 +488,7 @@ input[type="file"]::-webkit-file-upload-button:hover {
         const state = redoStack.pop();
         historyStack.push(state);
         document.getElementById("input").value = state;
-      }
-    }
-
-    function resetText() {
-      if (confirm("Are you sure to reset?")) {
-        saveState();
-        document.getElementById("input").value = "";
-        document.getElementById("colorArea").innerHTML = "";
+        extractColors();
       }
     }
 
@@ -457,7 +509,9 @@ input[type="file"]::-webkit-file-upload-button:hover {
       const reader = new FileReader();
       reader.onload = function () {
         document.getElementById("input").value = reader.result;
+        initialState = reader.result;
         saveState();
+        extractColors();
       };
       reader.readAsText(e.target.files[0]);
     });
@@ -472,78 +526,189 @@ input[type="file"]::-webkit-file-upload-button:hover {
       document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = !cb.checked);
     }
 
+    function resolveColor(hex, colorMap, depth = 0) {
+      if (depth > 10) return "#cccccc";
+      if (/^@color\//.test(hex)) {
+        const refName = hex.replace('@color/', '');
+        if (colorMap[refName]) {
+          return resolveColor(colorMap[refName], colorMap, depth + 1);
+        } else {
+          return "#cccccc";
+        }
+      }
+      return hex;
+    }
+
+    // --- Updated extractColors with search/filter and select by hex ---
     function extractColors() {
-  const text = document.getElementById("input").value;
-  // এখানে 6 বা 8 ক্যারেক্টারের হেক্স কালার সমর্থন
- const regex = /<color\s+name="([^"]+)">([^<]+)<\/color>/g;
-  const matches = [...text.matchAll(regex)];
+      const textArea = document.getElementById("input");
+      let text = textArea.value;
 
-  const container = document.getElementById("colorArea");
-  container.innerHTML = '<h3>🎨 Found Colors:</h3>';
+      const regex = /<color\s+name="([^"]+)">([^<]+)<\/color>/g;
+      const matches = [...text.matchAll(regex)];
+      const colorMap = {};
+      matches.forEach(match => {
+        colorMap[match[1]] = match[2];
+      });
 
-  if (matches.length === 0) {
-    container.innerHTML += "<p>No colors found.</p>";
-    return;
-  }
+      let lines = text.split('\n');
+      let colorIndex = 0;
+      for (let i = 0; i < lines.length; i++) {
+        if (regex.test(lines[i])) {
+          colorIndex++;
+          lines[i] = lines[i].replace(/^(\d+\.\s*)?/, '');
+          lines[i] = colorIndex + '. ' + lines[i];
+        }
+        regex.lastIndex = 0;
+      }
+      textArea.value = lines.join('\n');
 
-  const controlsDiv = document.createElement('div');
-  controlsDiv.className = 'selection-controls';
-  controlsDiv.innerHTML = `
-    <button onclick="selectAllColors()">Select All</button>
-    <button onclick="deselectAllColors()">Deselect All</button>
-    <button onclick="invertSelection()">Invert Selection</button>
-  `;
-  container.appendChild(controlsDiv);
+      const container = document.getElementById("colorArea");
+      container.innerHTML = '<h3>🎨 Found Colors:</h3>';
 
-  matches.forEach(match => {
-    const colorName = match[1];
-    const hex = match[2];
-    const div = document.createElement("div");
-    div.className = "color-item";
-    div.innerHTML = `
-      <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
-      <label for="chk-${colorName}">
-        <span class="color-swatch" style="background:${hex};"></span> 
-        <code>${colorName} — ${hex}</code>
-      </label>
-    `;
-    container.appendChild(div);
-  });
-}
+      // Search/filter UI
+      container.innerHTML += `
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+          <input id="colorSearch" type="text" placeholder="Search color name or hex..." style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #444;background:#23283a;color:#fff;font-size:15px;" value="${colorFilter || ''}">
+          <button onclick="selectByHex()" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%);color:#222;font-weight:bold;cursor:pointer;">Select by Hex</button>
+        </div>
+      `;
 
-  function replaceSelected() {
-  saveState();
-  const textArea = document.getElementById("input");
-  let text = textArea.value;
-  const newColor = document.getElementById("newColorText").value.trim();
+      // Filter logic
+      let filtered = matches;
+      if (colorFilter && colorFilter.trim().length >= 3) {
+        const f = colorFilter.trim().toLowerCase();
+        filtered = matches.filter(
+          m => m[1].toLowerCase().includes(f) || m[2].toLowerCase().includes(f)
+        );
+      }
 
-  // সব সিলেক্টেড চেকবক্স নিয়ে আসা
-  const selected = document.querySelectorAll("#colorArea input[type='checkbox']:checked");
+      if (filtered.length === 0) {
+        container.innerHTML += "<p>No colors found.</p>";
+        return;
+      }
 
-  if (selected.length === 0) {
-    alert("Please select at least one color to replace.");
-    return;
-  }
+      const controlsDiv = document.createElement('div');
+      controlsDiv.className = 'selection-controls';
+      controlsDiv.innerHTML = `
+        <button onclick="selectAllColors()">Select All</button>
+        <button onclick="deselectAllColors()">Deselect All</button>
+        <button onclick="invertSelection()">Invert Selection</button>
+      `;
+      container.appendChild(controlsDiv);
 
-  selected.forEach(cb => {
-    const oldColor = cb.getAttribute("data-target");
-    // Replace all instances of oldColor with newColor in the text
-    // Use global and case-insensitive regex
-    const regex = new RegExp(oldColor, "gi");
-    text = text.replace(regex, newColor);
-  });
+      filtered.forEach((match, idx) => {
+        const colorName = match[1];
+        let hex = match[2];
+        let displayHex = resolveColor(hex, colorMap);
 
-  textArea.value = text;
-}
+        const div = document.createElement("div");
+        div.className = "color-item";
+        div.innerHTML = `
+          <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
+          <label for="chk-${colorName}">
+            <b>${idx + 1}.</b>
+            <span class="color-swatch" style="background:${displayHex};"></span> 
+            <code>${colorName} — ${displayHex}</code>
+          </label>
+        `;
+        container.appendChild(div);
+      });
 
+      // Search input event
+      setTimeout(() => {
+        const search = document.getElementById("colorSearch");
+        if (search) {
+          search.onkeydown = function(e) {
+            if (e.key === "Enter") {
+              colorFilter = this.value;
+              extractColors();
+            }
+          };
+        }
+      }, 0);
+    }
+
+    function selectByHex() {
+      const search = document.getElementById("colorSearch");
+      if (!search) return;
+      colorFilter = search.value.trim();
+      extractColors();
+      const hex = colorFilter.toLowerCase();
+      if (!hex) return;
+      document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => {
+        if (cb.getAttribute("data-target").toLowerCase() === hex) {
+          cb.checked = true;
+        }
+      });
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener("keydown", function(e) {
+      // Ctrl+Z: Undo
+      if (e.ctrlKey && e.key.toLowerCase() === "z") {
+        e.preventDefault();
+        undo();
+      }
+      // Ctrl+Y: Redo
+      if (e.ctrlKey && e.key.toLowerCase() === "y") {
+        e.preventDefault();
+        redo();
+      }
+      // Ctrl+F: Focus search
+      if (e.ctrlKey && e.key.toLowerCase() === "f") {
+        e.preventDefault();
+        const search = document.getElementById("colorSearch");
+        if (search) search.focus();
+      }
+      // Ctrl+R: Replace Selected
+      if (e.ctrlKey && e.key.toLowerCase() === "r") {
+        e.preventDefault();
+        replaceSelected();
+      }
+      // Ctrl+A: Select all checkboxes (when color list focused)
+      if (e.ctrlKey && e.key.toLowerCase() === "a") {
+        const area = document.activeElement;
+        if (area && area.id === "colorSearch") {
+          // let default select all in input
+          return;
+        }
+        e.preventDefault();
+        selectAllColors();
+      }
+      // Esc: Unfocus search
+      if (e.key === "Escape") {
+        const search = document.getElementById("colorSearch");
+        if (search) search.blur();
+      }
+    });
+
+    function replaceSelected() {
+      saveState();
+      const textArea = document.getElementById("input");
+      let text = textArea.value;
+      const newColor = document.getElementById("newColorText").value.trim();
+      const selected = document.querySelectorAll("#colorArea input[type='checkbox']:checked");
+      if (selected.length === 0) {
+        alert("Please select at least one color to replace.");
+        return;
+      }
+      selected.forEach(cb => {
+        const oldColor = cb.getAttribute("data-target");
+        const colorTagRegex = new RegExp(`(<color\\s+name="[^"]+">)${oldColor}(</color>)`, "g");
+        text = text.replace(colorTagRegex, `$1${newColor}$2`);
+      });
+      textArea.value = text;
+      extractColors();
+    }
 
     function replaceAll() {
       saveState();
       const textArea = document.getElementById("input");
       let text = textArea.value;
-      const newColor = document.getElementById("newColorText").value;
-      const regex = /<color\s+name="[^"]+">(#(?:[0-9a-fA-F]{3,6}))<\/color>/g;
-      text = text.replace(regex, (match, hex) => match.replace(hex, newColor));
+      const newColor = document.getElementById("newColorText").value.trim();
+      const regex = /(<color\s+name="[^"]+">)[^<]+(<\/color>)/g;
+      text = text.replace(regex, `$1${newColor}$2`);
       textArea.value = text;
       extractColors();
     }
@@ -559,6 +724,12 @@ input[type="file"]::-webkit-file-upload-button:hover {
 
     renderPresetColors();
     saveState();
+
+    window.onload = function() {
+      initialState = document.getElementById("input").value;
+      saveState();
+      extractColors();
+    };
   </script>
 </body>
 </html>
