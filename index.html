@@ -547,6 +547,8 @@ input[type="file"]::-webkit-file-upload-button:hover {
   <button onclick="formatXML()" title="Format XML">Format XML</button>
   <button onclick="beautifyXML()" title="Beautify XML">Beautify XML</button>
   <button onclick="minifyXML()" title="Minify XML">Minify XML</button>
+   <button onclick="sortColorsAlpha()" title="Sort Colors Alphabetically">Sort Colors</button>
+  <button onclick="restoreInitialXML()" title="Restore Initial XML">Restore Original</button>
 </div>
       <div class="color-inputs">
         <label for="newColor">New Color:</label>
@@ -703,6 +705,52 @@ function minifyXML() {
   let minified = text.replace(/>\s+</g, '><').replace(/\s{2,}/g, ' ').trim();
   document.getElementById("input").value = minified;
 }
+
+
+// ১১. Sort Colors Alphabetically
+function sortColorsAlpha() {
+  saveState();
+  const textArea = document.getElementById("input");
+  let text = textArea.value;
+
+  // শুধু <color ...>...</color> ট্যাগগুলো ধরো
+  const colorRegex = /<color\s+name="([^"]+)">([^<]+)<\/color>/g;
+  let matches = [...text.matchAll(colorRegex)];
+  if (matches.length === 0) return;
+
+  // বাকি XML থেকে color ট্যাগ বাদ দাও
+  let textWithoutColors = text.replace(colorRegex, '').trim();
+
+  // Alphabetically sort
+  matches.sort((a, b) => a[1].localeCompare(b[1]));
+
+  // আবার জোড়া লাগাও
+  let sortedColors = matches.map(m => `<color name="${m[1]}">${m[2]}</color>`).join('\n');
+  let finalText = textWithoutColors
+    ? textWithoutColors.replace(/(<\/[a-zA-Z_][\w\-\.]*>\s*)$/, sortedColors + '\n$1')
+    : sortedColors;
+
+  // যদি root tag থাকে, তার ভেতরে বসাও
+  if (/<[a-zA-Z_][\w\-\.]*[^>]*>/.test(finalText) && /<\/[a-zA-Z_][\w\-\.]*>/.test(finalText)) {
+    finalText = finalText.replace(
+      /(<[a-zA-Z_][\w\-\.]*[^>]*>)([\s\S]*)(<\/[a-zA-Z_][\w\-\.]*>)/,
+      (_, open, inner, close) => open + '\n' + sortedColors + '\n' + close
+    );
+  }
+
+  textArea.value = finalText.trim();
+  extractColors();
+}
+
+// ১২. Restore Initial XML
+function restoreInitialXML() {
+  if (confirm("Restore the original XML? All changes will be lost!")) {
+    document.getElementById("input").value = initialState;
+    extractColors();
+  }
+}
+
+
 
     document.getElementById("newColor").addEventListener("input", e => {
       document.getElementById("newColorText").value = e.target.value;
