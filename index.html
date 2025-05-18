@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XML Color Replacer Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <!-- ===== CSS: Main Styles ===== -->
   <style>
     :root {
       color: #fff;
@@ -22,7 +21,6 @@
       --input-border: #404060;
       --button-hover: #9965f4;
     }
-    /* ===== CSS: Body & Layout ===== */
     body {
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(135deg, #23283a 0%, #181c24 100%);
@@ -61,7 +59,6 @@
       border: 1.5px solid var(--border-color);
       overflow-x: hidden;
     }
-    /* ===== CSS: Root Tag Change UI ===== */
     .root-tag-btn {
       padding: 10px 22px;
       border-radius: 10px;
@@ -113,7 +110,6 @@
       color: #23283a;
       transform: scale(1.04);
     }
-    /* ===== CSS: Textarea & Inputs ===== */
     textarea {
       width: 100%;
       min-height: 120px;
@@ -135,7 +131,6 @@
       border-color: var(--accent);
       box-shadow: 0 0 0 3px #bb86fc33, 0 2px 8px #0004 inset;
     }
-    /* ===== CSS: Button Groups ===== */
     .button-group {
       display: flex;
       flex-wrap: wrap;
@@ -165,7 +160,6 @@
       transform: translateY(-2px) scale(1.04);
       box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
     }
-    /* ===== CSS: Color Inputs & Presets ===== */
     .color-inputs {
       display: flex;
       align-items: center;
@@ -246,7 +240,6 @@
       transform: scale(1.18);
       outline: none;
     }
-    /* ===== CSS: Color List & Controls ===== */
     #colorArea {
       color: var(--text-color);
     }
@@ -314,7 +307,20 @@
       flex-wrap: wrap;
       justify-content: center;
     }
-    /* ===== CSS: File Input ===== */
+    .color-item button.delete-btn {
+      margin-left: 8px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #e74c3c;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+    .color-item button.delete-btn:hover {
+      background: #c0392b;
+    }
     input[type="file"] {
       width: 100%;
       padding: 12px;
@@ -346,7 +352,6 @@
       box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
       transform: translateY(-2px) scale(1.04);
     }
-    /* ===== CSS: Scrollbar ===== */
     ::-webkit-scrollbar {
       width: 12px;
       height: 12px;
@@ -368,7 +373,6 @@
       scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
       box-sizing: border-box;
     }
-    /* ===== CSS: Responsive ===== */
     @media (max-width: 900px) {
       .container { max-width: 99vw; padding: 0 2vw; }
       .card { padding: 14px 6px; border-radius: 14px; }
@@ -393,7 +397,6 @@
       .selection-controls button { font-size: 12px; padding: 7px 8px; }
       .color-inputs label { font-size: 13px; }
     }
-    /* ===== CSS: Replace Group ===== */
     .replace-group {
       display: flex;
       gap: 10px;
@@ -424,21 +427,15 @@
   </style>
 </head>
 <body>
-  <!-- ===== Header Section ===== -->
   <header>
     <div class="logo">🎨 Color Replacer</div>
   </header>
   <div class="container">
     <div class="card">
-      <!-- ===== File Upload & Root Tag Change UI ===== -->
       <input type="file" id="xmlFile" accept=".xml" style="flex:1;">
       <div id="rootTagChangeBox" style="text-align:center; margin:18px 0;">
-        <button id="showRootOptionsBtn" onclick="showRootTagOptions()" class="root-tag-btn">
-          🏷️ Root
-        </button>
-        <button onclick="refreshPage()" class="root-tag-btn" style="margin-left:12px;">
-          🔄 Refresh
-        </button>
+        <button id="showRootOptionsBtn" onclick="showRootTagOptions()" class="root-tag-btn">🏷️ Root</button>
+        <button onclick="refreshPage()" class="root-tag-btn" style="margin-left:12px;">🔄 Refresh</button>
         <div id="rootTagOptions" style="display:none; margin-top:12px;">
           <select id="rootTagSelect" class="root-tag-select">
             <option value="resources">&lt;resources&gt;</option>
@@ -450,22 +447,23 @@
           <button onclick="changeRootTagSelect()" class="root-tag-apply-btn">Apply</button>
         </div>
       </div>
-      <!-- ===== XML Input Area ===== -->
       <textarea id="input" placeholder="Paste or upload your XML here..." spellcheck="false"></textarea>
-      <!-- ===== Main Button Group ===== -->
-      <div class="button-group">
+      <div class="button-group" style="margin-bottom:10px;">
         <button onclick="extractColors()">Show Colors</button>
         <button onclick="downloadXML('colors.xml')">Download</button>
         <button onclick="downloadXML('theme_values.xml')">Download Theme</button>
+      </div>
+      <div class="button-group" style="margin-bottom:10px;">
         <button onclick="undo()">Undo</button>
         <button onclick="redo()">Redo</button>
         <button onclick="formatXML()" title="Format XML">Format XML</button>
         <button onclick="beautifyXML()" title="Beautify XML">Beautify XML</button>
         <button onclick="minifyXML()" title="Minify XML">Minify XML</button>
+      </div>
+      <div class="button-group" style="margin-bottom:10px;">
         <button onclick="sortColorsAlpha()" title="Sort Colors Alphabetically">Sort Colors</button>
         <button onclick="restoreInitialXML()" title="Restore Initial XML">Restore Original</button>
       </div>
-      <!-- ===== Color Input & Preset Section ===== -->
       <div class="color-inputs">
         <label for="newColor">New Color:</label>
         <input type="color" id="newColor" value="#ff0000">
@@ -473,16 +471,15 @@
         <span id="newColorHex">#ff0000</span>
       </div>
       <div class="preset-colors" id="presetColors"></div>
-      <!-- ===== Replace Group Section ===== -->
       <div class="replace-group">
         <button onclick="replaceSelected()">Replace Selected</button>
         <button onclick="replaceAll()">Replace All</button>
+        <button onclick="deleteSelectedColors()" style="background:#e74c3c;">Delete Selected</button>
+        <button onclick="deleteAllColors()" style="background:#e74c3c;">Delete All</button>
       </div>
     </div>
-    <!-- ===== Color List Section ===== -->
     <div id="colorArea" class="card"></div>
   </div>
-  <!-- ===== JavaScript Section ===== -->
   <script>
     // ===== Root Tag Change Function =====
     function changeRootTagSelect() {
@@ -511,7 +508,7 @@
       document.getElementById("showRootOptionsBtn").style.display = "inline-block";
     }
     // ===== Preset Colors, History, State =====
-    const presetColors = ['#ff1686d0','#ff006378','#ff00ff62','#ff061d2e','#b80a2e39','#ff041c30','#ffffc300','#ffff7e29','#ffff5ca1','#ffe68585','#ff7646ff','#00000000'];
+    const presetColors = ['#ff1686d0','#ff006378','#ff00ff62','#ff061d2e','#b80a2e39','#ff041c30','#ffffc300','#ffff7e29','#ffff5ca1','#ffe68585','#ff7646ff','#00000000','#80ffffff'];
     const historyStack = [], redoStack = [];
     let initialState = "";
     let colorFilter = "";
@@ -639,7 +636,6 @@
         extractColors();
       }
     }
-    // ===== Color Input Events =====
     document.getElementById("newColor").addEventListener("input", e => {
       document.getElementById("newColorText").value = e.target.value;
       document.getElementById("newColorHex").innerText = e.target.value;
@@ -651,7 +647,6 @@
         document.getElementById("newColorHex").innerText = val;
       }
     });
-    // ===== File Upload Event =====
     document.getElementById("xmlFile").addEventListener("change", function (e) {
       const reader = new FileReader();
       reader.onload = function () {
@@ -665,7 +660,6 @@
       };
       reader.readAsText(e.target.files[0]);
     });
-    // ===== Color Selection Controls =====
     function selectAllColors() {
       document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = true);
     }
@@ -675,7 +669,6 @@
     function invertSelection() {
       document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = !cb.checked);
     }
-    // ===== Color Reference Resolver =====
     function resolveColor(hex, colorMap, depth = 0) {
       if (depth > 10) return "#cccccc";
       if (/^@color\//.test(hex)) {
@@ -688,7 +681,43 @@
       }
       return hex;
     }
-    // ===== Extract Colors & Render List =====
+    // ===== Delete Single Color =====
+    function deleteColorByName(colorName) {
+      saveState();
+      let text = document.getElementById("input").value;
+      const regex = new RegExp(`^\\d*\\.?\\s*<color\\s+name="${colorName}">[^<]+<\\/color>\\s*$`, 'm');
+      text = text.replace(regex, '').replace(/^\s*\n/gm, '');
+      document.getElementById("input").value = text.trim();
+      extractColors();
+    }
+    // ===== Delete Selected Colors =====
+    function deleteSelectedColors() {
+      saveState();
+      let text = document.getElementById("input").value;
+      const selected = document.querySelectorAll("#colorArea input[type='checkbox']:checked");
+      if (selected.length === 0) {
+        alert("Please select at least one color to delete.");
+        return;
+      }
+      selected.forEach(cb => {
+        const colorName = cb.id.replace('chk-', '');
+        const regex = new RegExp(`^\\d*\\.?\\s*<color\\s+name="${colorName}">[^<]+<\\/color>\\s*$`, 'm');
+        text = text.replace(regex, '');
+      });
+      text = text.replace(/^\s*\n/gm, '');
+      document.getElementById("input").value = text.trim();
+      extractColors();
+    }
+    // ===== Delete All Colors =====
+    function deleteAllColors() {
+      if (!confirm("Delete all color lines? This cannot be undone!")) return;
+      saveState();
+      let text = document.getElementById("input").value;
+      text = text.replace(/^\d*\.?\s*<color\s+name="[^"]+">[^<]+<\/color>\s*$/gm, '');
+      text = text.replace(/^\s*\n/gm, '');
+      document.getElementById("input").value = text.trim();
+      extractColors();
+    }
     function extractColors() {
       const textArea = document.getElementById("input");
       let text = textArea.value;
@@ -749,6 +778,7 @@
             <span class="color-swatch" style="background:${displayHex};"></span> 
             <code>${colorName} — ${displayHex}</code>
           </label>
+          <button class="delete-btn" onclick="deleteColorByName('${colorName}')">Delete</button>
         `;
         container.appendChild(div);
       });
@@ -764,7 +794,6 @@
         }
       }, 0);
     }
-    // ===== Select By Hex =====
     function selectByHex() {
       const search = document.getElementById("colorSearch");
       if (!search) return;
@@ -778,7 +807,6 @@
         }
       });
     }
-    // ===== Keyboard Shortcuts =====
     document.addEventListener("keydown", function(e) {
       if (e.ctrlKey && e.key.toLowerCase() === "z") {
         e.preventDefault();
@@ -810,7 +838,6 @@
         if (search) search.blur();
       }
     });
-    // ===== Replace Selected Colors =====
     function replaceSelected() {
       saveState();
       const textArea = document.getElementById("input");
@@ -829,7 +856,6 @@
       textArea.value = text;
       extractColors();
     }
-    // ===== Replace All Colors =====
     function replaceAll() {
       saveState();
       const textArea = document.getElementById("input");
@@ -840,7 +866,6 @@
       textArea.value = text;
       extractColors();
     }
-    // ===== Download XML =====
     function downloadXML(filename) {
       const text = document.getElementById("input").value;
       const blob = new Blob([text], { type: "text/xml" });
@@ -849,7 +874,6 @@
       a.download = filename;
       a.click();
     }
-    // ===== Initial Render =====
     renderPresetColors();
     saveState();
     window.onload = function() {
