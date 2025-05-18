@@ -3,24 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XML Color Replacer Tool</title>
+  <title>🎨 XML Color Replacer Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      color: #fff;
+     
       --bg-color: #181c24;
       --card-bg: #23283a;
       --text-color: #c7e0d1;
       --accent: #1686d0;
       --shadow: 0 6px 24px rgba(0,0,0,0.35), 0 1.5px 1.5px rgba(255,255,255,0.08) inset;
       --border-color: #2d3142;
-      --scrollbar-bg: #23283a;
-      --scrollbar-thumb: #444;
-      --scrollbar-thumb-hover: #bb86fc;
+      --scrollbar-bg: #181c24;
+      --scrollbar-thumb: #23283a;
+      --scrollbar-thumb-hover: #44485a;
       --input-bg: #23283a;
       --input-border: #404060;
       --button-hover: #9965f4;
     }
+
+    /* Scrollbar Design (main code e boshano) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 6px;
+  border: 3px solid var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+}
+
     body {
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(135deg, #23283a 0%, #181c24 100%);
@@ -43,6 +70,9 @@
       color: var(--accent);
       letter-spacing: 2px;
       text-shadow: 0 2px 8px #000, 0 1px 0 #fff2;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .container {
       width: 98%;
@@ -71,6 +101,9 @@
       box-shadow: 0 2px 8px #38f9d755, 0 1px 1px #fff2 inset;
       transition: background 0.2s, transform 0.15s;
       margin-bottom: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .root-tag-btn:hover {
       background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
@@ -104,6 +137,9 @@
       cursor: pointer;
       box-shadow: 0 2px 8px #38f9d755, 0 1px 1px #fff2 inset;
       transition: background 0.2s, transform 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .root-tag-apply-btn:hover {
       background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
@@ -125,11 +161,45 @@
       box-shadow: 0 2px 8px #0004 inset;
       transition: border-color 0.2s, box-shadow 0.2s;
       box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+      overflow-y: auto;
     }
-    textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px #bb86fc33, 0 2px 8px #0004 inset;
+    textarea::-webkit-scrollbar {
+      width: 12px;
+      background: var(--scrollbar-bg);
+      border-radius: 8px;
+    }
+    textarea::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 8px;
+      border: 3px solid var(--scrollbar-bg);
+      min-height: 40px;
+      box-shadow: 0 2px 8px #111a;
+    }
+    textarea::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+    textarea::-webkit-scrollbar-corner {
+      background: var(--scrollbar-bg);
+    }
+    ::-webkit-scrollbar {
+      width: 12px;
+      background: var(--scrollbar-bg);
+      border-radius: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 8px;
+      border: 3px solid var(--scrollbar-bg);
+      min-height: 40px;
+      box-shadow: 0 2px 8px #111a;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+    ::-webkit-scrollbar-corner {
+      background: var(--scrollbar-bg);
     }
     .button-group {
       display: flex;
@@ -153,6 +223,9 @@
       min-width: max-content;
       white-space: nowrap;
       letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .button-group button:hover,
     .selection-controls button:hover {
@@ -160,6 +233,7 @@
       transform: translateY(-2px) scale(1.04);
       box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
     }
+    /* ...rest of your CSS remains unchanged... */
     .color-inputs {
       display: flex;
       align-items: center;
@@ -171,6 +245,9 @@
     .color-inputs label {
       font-weight: bold;
       font-size: clamp(15px, 2.5vw, 17px);
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
     .color-inputs input[type="text"] {
       max-width: 110px;
@@ -248,6 +325,9 @@
       color: var(--accent);
       font-size: clamp(18px, 3vw, 22px);
       text-shadow: 0 1px 4px #0003;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .color-item {
       margin: 12px 0;
@@ -317,61 +397,12 @@
       cursor: pointer;
       font-size: 13px;
       transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
     .color-item button.delete-btn:hover {
       background: #c0392b;
-    }
-    input[type="file"] {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      font-size: clamp(15px, 2.5vw, 17px);
-      background: var(--input-bg);
-      color: var(--text-color);
-      border: 2px solid var(--input-border);
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 1px 4px #0002 inset;
-      box-sizing: border-box;
-    }
-    input[type="file"]::-webkit-file-upload-button {
-      background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
-      color: white;
-      padding: 8px 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-right: 10px;
-      font-weight: bold;
-      font-size: clamp(13px, 2.5vw, 15px);
-      box-shadow: 0 3px 12px #0005, 0 1px 1px #fff1 inset;
-      transition: all 0.2s cubic-bezier(.4,2,.3,1);
-    }
-    input[type="file"]::-webkit-file-upload-button:hover {
-      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-      box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
-      transform: translateY(-2px) scale(1.04);
-    }
-    ::-webkit-scrollbar {
-      width: 12px;
-      height: 12px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--scrollbar-bg);
-      border-radius: 6px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--scrollbar-thumb);
-      border-radius: 6px;
-      border: 3px solid var(--scrollbar-bg);
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--scrollbar-thumb-hover);
-    }
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
-      box-sizing: border-box;
     }
     @media (max-width: 900px) {
       .container { max-width: 99vw; padding: 0 2vw; }
@@ -388,7 +419,6 @@
       .color-item label code { font-size: 13px; word-break: break-all; }
       #colorArea h3 { font-size: 17px; }
       .selection-controls { flex-direction: column; gap: 7px; align-items: stretch; }
-      input[type="file"] { font-size: 14px; padding: 8px; }
     }
     @media (max-width: 400px) {
       .logo { font-size: 16px; }
@@ -418,6 +448,9 @@
       min-width: max-content;
       white-space: nowrap;
       letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .replace-group button:hover {
       background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
@@ -432,55 +465,84 @@
   </header>
   <div class="container">
     <div class="card">
-      <input type="file" id="xmlFile" accept=".xml" style="flex:1;">
-      <div id="rootTagChangeBox" style="text-align:center; margin:18px 0;">
-        <button id="showRootOptionsBtn" onclick="showRootTagOptions()" class="root-tag-btn">🏷️ Root</button>
-        <button onclick="refreshPage()" class="root-tag-btn" style="margin-left:12px;">🔄 Refresh</button>
-        <div id="rootTagOptions" style="display:none; margin-top:12px;">
-          <select id="rootTagSelect" class="root-tag-select">
-            <option value="resources">&lt;resources&gt;</option>
-            <option value="MIUI_Theme_Values">&lt;MIUI_Theme_Values&gt;</option>
-            <option value='MIUI_Theme_Values template="DarkTemplate"'>&lt;MIUI_Theme_Values template="DarkTemplate"&gt;</option>
-            <option value='MIUI_Theme_Values template="LightTemplate"'>&lt;MIUI_Theme_Values template="LightTemplate"&gt;</option>
-            <option value="ThemeValues">&lt;ThemeValues&gt;</option>
-          </select>
-          <button onclick="changeRootTagSelect()" class="root-tag-apply-btn">Apply</button>
+      <div style="margin-bottom:24px;">
+        <label for="xmlFile" style="font-weight:bold; margin-bottom:10px; display:block;">📁 Choose XML File:</label>
+        <div style="display:flex; align-items:center; gap:15px;">
+          <label for="xmlFile" id="customFileBtn" style="
+            background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #38f9d755;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            font-size: 16px;
+            transition: background 0.2s, transform 0.15s;
+          ">
+            <span>📂 Browse</span>
+          </label>
+          <span id="fileName" style="color:#bbb; font-size:15px;">No file chosen</span>
+          <input type="file" id="xmlFile" accept=".xml" style="display:none;">
         </div>
       </div>
-      <textarea id="input" placeholder="Paste or upload your XML here..." spellcheck="false"></textarea>
+      <div id="rootTagChangeBox" style="text-align:center; margin:18px 0;">
+        <button id="showRootOptionsBtn" onclick="showRootTagOptions()" class="root-tag-btn">🏷️ Root</button>
+        <button id="refreshBtn" onclick="refreshPage()" class="root-tag-btn" style="margin-left:12px;">🔄 Refresh</button>
+        <div id="rootTagOptions" style="display:none; margin-top:12px;">
+          <select id="rootTagSelect" class="root-tag-select">
+            <option value="resources">📦 &lt;resources&gt;</option>
+            <option value="MIUI_Theme_Values">🧩 &lt;MIUI_Theme_Values&gt;</option>
+            <option value='MIUI_Theme_Values template="DarkTemplate"'>🌑 &lt;MIUI_Theme_Values template="DarkTemplate"&gt;</option>
+            <option value='MIUI_Theme_Values template="LightTemplate"'>🌕 &lt;MIUI_Theme_Values template="LightTemplate"&gt;</option>
+            <option value="ThemeValues">🎭 &lt;ThemeValues&gt;</option>
+          </select>
+          <button onclick="changeRootTagSelect()" class="root-tag-apply-btn">✅ Apply</button>
+        </div>
+      </div>
+      <textarea id="input" placeholder="📝 Paste or upload your XML here..." spellcheck="false"></textarea>
       <div class="button-group" style="margin-bottom:10px;">
-        <button onclick="extractColors()">Show Colors</button>
-        <button onclick="downloadXML('colors.xml')">Download</button>
-        <button onclick="downloadXML('theme_values.xml')">Download Theme</button>
+        <button onclick="extractColors()">🎨 Show Colors</button>
+        <button onclick="downloadXML('colors.xml')">⬇️ Download</button>
+        <button onclick="downloadXML('theme_values.xml')">⬇️ Download Theme</button>
       </div>
       <div class="button-group" style="margin-bottom:10px;">
-        <button onclick="undo()">Undo</button>
-        <button onclick="redo()">Redo</button>
-        <button onclick="formatXML()" title="Format XML">Format XML</button>
-        <button onclick="beautifyXML()" title="Beautify XML">Beautify XML</button>
-        <button onclick="minifyXML()" title="Minify XML">Minify XML</button>
+        <button onclick="undo()">↩️ Undo</button>
+        <button onclick="redo()">↪️ Redo</button>
+        <button onclick="formatXML()" title="Format XML">🧹 Format</button>
+        <button onclick="beautifyXML()" title="Beautify XML">✨ Beautify</button>
+        <button onclick="minifyXML()" title="Minify XML">🔻 Minify</button>
       </div>
       <div class="button-group" style="margin-bottom:10px;">
-        <button onclick="sortColorsAlpha()" title="Sort Colors Alphabetically">Sort Colors</button>
-        <button onclick="restoreInitialXML()" title="Restore Initial XML">Restore Original</button>
+        <button onclick="sortColorsAlpha()" title="Sort Colors Alphabetically">🔤 Sort Colors</button>
+        <button onclick="restoreInitialXML()" title="Restore Initial XML">♻️ Restore</button>
       </div>
       <div class="color-inputs">
-        <label for="newColor">New Color:</label>
+        <label for="newColor">🎯 New Color:</label>
         <input type="color" id="newColor" value="#ff0000">
         <input type="text" id="newColorText" value="#ff0000" maxlength="7" aria-label="New color hex code">
         <span id="newColorHex">#ff0000</span>
       </div>
       <div class="preset-colors" id="presetColors"></div>
       <div class="replace-group">
-        <button onclick="replaceSelected()">Replace Selected</button>
-        <button onclick="replaceAll()">Replace All</button>
-        <button onclick="deleteSelectedColors()" style="background:#e74c3c;">Delete Selected</button>
-        <button onclick="deleteAllColors()" style="background:#e74c3c;">Delete All</button>
+        <button onclick="replaceSelected()">🖌️ Replace Selected</button>
+        <button onclick="replaceAll()">🖍️ Replace All</button>
+        <button onclick="deleteSelectedColors()" style="background:#e74c3c;">🗑️ Delete Selected</button>
+        <button onclick="deleteAllColors()" style="background:#e74c3c;">🗑️ Delete All</button>
       </div>
     </div>
     <div id="colorArea" class="card"></div>
   </div>
   <script>
+    // Custom file input label update
+    document.getElementById('xmlFile').addEventListener('change', function(e) {
+      const fileName = e.target.files.length ? e.target.files[0].name : 'No file chosen';
+      document.getElementById('fileName').textContent = fileName;
+    });
+
     // ===== Root Tag Change Function =====
     function changeRootTagSelect() {
       const input = document.getElementById("input");
@@ -508,7 +570,10 @@
       document.getElementById("showRootOptionsBtn").style.display = "inline-block";
     }
     // ===== Preset Colors, History, State =====
-    const presetColors = ['#ff1686d0','#ff006378','#ff00ff62','#ff061d2e','#b80a2e39','#ff041c30','#ffffc300','#ffff7e29','#ffff5ca1','#ffe68585','#ff7646ff','#00000000','#80ffffff'];
+    const presetColors = [
+      '#ff1686d0','#ff006378','#ff00ff62','#ff061d2e','#b80a2e39','#ff041c30',
+      '#ffffc300','#ffff7e29','#ffff5ca1','#ffe68585','#ff7646ff','#00000000'
+    ];
     const historyStack = [], redoStack = [];
     let initialState = "";
     let colorFilter = "";
@@ -742,8 +807,8 @@
       container.innerHTML = '<h3>🎨 Found Colors:</h3>';
       container.innerHTML += `
         <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-          <input id="colorSearch" type="text" placeholder="Search color name or hex..." style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #444;background:#23283a;color:#fff;font-size:15px;" value="${colorFilter || ''}">
-          <button onclick="selectByHex()" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%);color:#222;font-weight:bold;cursor:pointer;">Select by Hex</button>
+          <input id="colorSearch" type="text" placeholder="🔍 Search color name or hex..." style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #444;background:#23283a;color:#fff;font-size:15px;" value="${colorFilter || ''}">
+          <button onclick="selectByHex()" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%);color:#222;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:4px;">🎯 Select by Hex</button>
         </div>
       `;
       let filtered = matches;
@@ -754,15 +819,15 @@
         );
       }
       if (filtered.length === 0) {
-        container.innerHTML += "<p>No colors found.</p>";
+        container.innerHTML += "<p>🚫 No colors found.</p>";
         return;
       }
       const controlsDiv = document.createElement('div');
       controlsDiv.className = 'selection-controls';
       controlsDiv.innerHTML = `
-        <button onclick="selectAllColors()">Select All</button>
-        <button onclick="deselectAllColors()">Deselect All</button>
-        <button onclick="invertSelection()">Invert Selection</button>
+        <button onclick="selectAllColors()">✅ Select All</button>
+        <button onclick="deselectAllColors()">❌ Deselect All</button>
+        <button onclick="invertSelection()">🔄 Invert</button>
       `;
       container.appendChild(controlsDiv);
       filtered.forEach((match, idx) => {
@@ -778,7 +843,7 @@
             <span class="color-swatch" style="background:${displayHex};"></span> 
             <code>${colorName} — ${displayHex}</code>
           </label>
-          <button class="delete-btn" onclick="deleteColorByName('${colorName}')">Delete</button>
+          <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
         `;
         container.appendChild(div);
       });
