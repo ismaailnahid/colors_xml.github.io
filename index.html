@@ -118,6 +118,8 @@ textarea:focus {
   transform: translateY(-2px) scale(1.04);
   box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
 }
+
+
 .color-inputs {
   display: flex;
   align-items: center;
@@ -151,18 +153,26 @@ textarea:focus {
 }
 
 .color-inputs input[type="color"] {
-  border: none;
-  background: none;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px #0003;
+  border: 3px solid var(--accent);
+  background: linear-gradient(135deg, #23283a 60%, #38f9d7 100%);
+  width: 52px;
+  height: 52px;
+  border-radius: 8%; /* পুরো গোল */
+  box-shadow: 0 4px 18px #38f9d7aa, 0 2px 8px #fff2 inset;
   cursor: pointer;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+  padding: 0;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-block;
 }
 
-.color-inputs input[type="color"]:hover {
-  box-shadow: 0 4px 16px #bb86fc55;
+.color-inputs input[type="color"]:hover,
+.color-inputs input[type="color"]:focus {
+  border-color: #43e97b;
+  box-shadow: 0 0 0 4px #43e97b55, 0 8px 24px #38f9d7aa, 0 2px 8px #fff2 inset;
+  transform: scale(1.08);
 }
 
 .preset-colors {
@@ -174,19 +184,29 @@ textarea:focus {
 }
 
 .preset-color {
-  width: clamp(28px, 5vw, 34px);
-  height: clamp(28px, 5vw, 34px);
-  border-radius: 50%;
-  border: 2.5px solid var(--border-color);
+  width: 48px;           /* আগে ছিল clamp(28px, 5vw, 34px); */
+  height: 48px;
+  border-radius: 50%;    /* পুরো গোল */
+  border: 3px solid var(--border-color);
   cursor: pointer;
-  box-shadow: 0 2px 8px #0005, 0 1px 1px #fff2 inset;
+  box-shadow: 0 4px 16px #0005, 0 2px 8px #fff2 inset;
   transition: all 0.2s;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 .preset-color:hover {
   border-color: var(--accent);
   transform: scale(1.13);
   box-shadow: 0 6px 18px #bb86fc55, 0 1px 1px #fff2 inset;
+}
+
+.preset-color.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px #43e97b99, 0 8px 24px #38f9d7aa, 0 2px 8px #fff2 inset;
+  transform: scale(1.18);
+  outline: none;
 }
 
 #colorArea {
@@ -405,7 +425,38 @@ input[type="file"]::-webkit-file-upload-button:hover {
   }
 }
 
+ /* ...তোমার আগের CSS অপরিবর্তিত... */
+    /* নিচে শুধু নতুন .replace-group ক্লাস যোগ করা হয়েছে */
+    .replace-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 18px 0;
+      flex-wrap: wrap;
+    }
+    .replace-group button {
+      background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: clamp(13px, 2.5vw, 15px);
+      box-shadow: 0 3px 12px #0005, 0 1px 1px #fff1 inset;
+      transition: all 0.2s cubic-bezier(.4,2,.3,1);
+      min-width: max-content;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+    .replace-group button:hover {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
+    }
   </style>
+  <!-- ...বাকি CSS অপরিবর্তিত... -->
+ 
 </head>
 <body>
   <header>
@@ -415,15 +466,16 @@ input[type="file"]::-webkit-file-upload-button:hover {
     <div class="card">
       <input type="file" id="xmlFile" accept=".xml">
       <textarea id="input" placeholder="Paste or upload your XML here..."  spellcheck="false" ></textarea>
-      <div class="button-group">
-        <button onclick="extractColors()">Show Colors</button>
-        <button onclick="replaceSelected()">Replace Selected</button>
-        <button onclick="replaceAll()">Replace All</button>
-        <button onclick="downloadXML('colors.xml')">Download</button>
-        <button onclick="downloadXML('theme_values.xml')">Download Theme</button>
-        <button onclick="undo()">Undo</button>
-        <button onclick="redo()">Redo</button>
-      </div>
+ <div class="button-group">
+  <button onclick="extractColors()">Show Colors</button>
+  <button onclick="downloadXML('colors.xml')">Download</button>
+  <button onclick="downloadXML('theme_values.xml')">Download Theme</button>
+  <button onclick="undo()">Undo</button>
+  <button onclick="redo()">Redo</button>
+  <button onclick="formatXML()" title="Format XML">Format XML</button>
+  <button onclick="beautifyXML()" title="Beautify XML">Beautify XML</button>
+  <button onclick="minifyXML()" title="Minify XML">Minify XML</button>
+</div>
       <div class="color-inputs">
         <label for="newColor">New Color:</label>
         <input type="color" id="newColor" value="#ff0000">
@@ -431,6 +483,11 @@ input[type="file"]::-webkit-file-upload-button:hover {
         <span id="newColorHex">#ff0000</span>
       </div>
       <div class="preset-colors" id="presetColors"></div>
+      <!-- এখানে নতুন ডিভ -->
+      <div class="replace-group">
+        <button onclick="replaceSelected()">Replace Selected</button>
+        <button onclick="replaceAll()">Replace All</button>
+      </div>
     </div>
 
     <div id="colorArea" class="card">
@@ -438,6 +495,8 @@ input[type="file"]::-webkit-file-upload-button:hover {
   </div>
 
   <script>
+    // ...তোমার আগের JS অপরিবর্তিত...
+    // (কোনো পরিবর্তন দরকার নেই, শুধু HTML structure বদলেছে)
     const presetColors = ['#ff1686d0','#ff006378','#ff00ff62','#ff061d2e','#b80a2e39','#ff041c30','#ffffc300','#ffff7e29','#ffff5ca1','#ffe68585','#ff7646ff','#00000000'];
     const historyStack = [], redoStack = [];
     let initialState = "";
@@ -449,26 +508,31 @@ input[type="file"]::-webkit-file-upload-button:hover {
       return hex;
     }
 
-    function updateColorInputs(color) {
-      let color6 = hex8ToHex6(color);
-      document.getElementById('newColor').value = color6;
-      document.getElementById('newColorText').value = color6;
-      document.getElementById('newColorHex').innerText = color6;
-    }
+function updateColorInputs(color) {
+  let color6 = hex8ToHex6(color);
+  document.getElementById('newColor').value = color6;
+  document.getElementById('newColorText').value = color6;
+  document.getElementById('newColorHex').innerText = color6;
+  renderPresetColors(); // active effect update
+}
 
-    function renderPresetColors() {
-      const container = document.getElementById("presetColors");
-      container.innerHTML = "";
-      presetColors.forEach(color => {
-        const div = document.createElement("div");
-        div.className = "preset-color";
-        div.style.backgroundColor = hex8ToHex6(color);
-        div.title = color;
-        div.onclick = () => updateColorInputs(color);
-        container.appendChild(div);
-      });
+function renderPresetColors() {
+  const container = document.getElementById("presetColors");
+  container.innerHTML = "";
+  const current = document.getElementById('newColor').value.toLowerCase();
+  presetColors.forEach(color => {
+    const div = document.createElement("div");
+    div.className = "preset-color";
+    div.style.backgroundColor = hex8ToHex6(color);
+    div.title = color;
+    div.onclick = () => updateColorInputs(color);
+    // active effect
+    if (hex8ToHex6(color).toLowerCase() === current) {
+      div.classList.add("active");
     }
-
+    container.appendChild(div);
+  });
+}
     function saveState() {
       historyStack.push(document.getElementById("input").value);
       if (historyStack.length > 100) historyStack.shift();
@@ -491,6 +555,42 @@ input[type="file"]::-webkit-file-upload-button:hover {
         extractColors();
       }
     }
+
+
+function formatXML() {
+  let text = document.getElementById("input").value;
+  try {
+    let formatted = text.replace(/>\s*</g, '>\n<');
+    let pad = 0, result = '';
+    formatted.split('\n').forEach(line => {
+      if (line.match(/^<\/\w/)) pad--;
+      result += '  '.repeat(pad) + line + '\n';
+      if (line.match(/^<[^!?\/][^>]*[^\/]>$/)) { pad++; }
+    });
+    document.getElementById("input").value = result.trim();
+  } catch {}
+}
+
+function beautifyXML() {
+  let text = document.getElementById("input").value;
+  try {
+    // Ensure every tag is on a new line
+    let formatted = text.replace(/>\s*</g, '>\n<');
+    let pad = 0, result = '';
+    formatted.split('\n').forEach(line => {
+      if (line.match(/^<\/\w/)) pad--;
+      result += '  '.repeat(pad) + line.trim() + '\n';
+      if (line.match(/^<[^!?\/][^>]*[^\/]>$/)) { pad++; }
+    });
+    document.getElementById("input").value = result.trim();
+  } catch {}
+}
+function minifyXML() {
+  let text = document.getElementById("input").value;
+  // Remove all newlines and extra spaces between tags
+  let minified = text.replace(/>\s+</g, '><').replace(/\s{2,}/g, ' ').trim();
+  document.getElementById("input").value = minified;
+}
 
     document.getElementById("newColor").addEventListener("input", e => {
       document.getElementById("newColorText").value = e.target.value;
@@ -539,7 +639,6 @@ input[type="file"]::-webkit-file-upload-button:hover {
       return hex;
     }
 
-    // --- Updated extractColors with search/filter and select by hex ---
     function extractColors() {
       const textArea = document.getElementById("input");
       let text = textArea.value;
@@ -597,23 +696,25 @@ input[type="file"]::-webkit-file-upload-button:hover {
       `;
       container.appendChild(controlsDiv);
 
-      filtered.forEach((match, idx) => {
-        const colorName = match[1];
-        let hex = match[2];
-        let displayHex = resolveColor(hex, colorMap);
+  // ...existing code...
+filtered.forEach((match, idx) => {
+  const colorName = match[1];
+  let hex = match[2];
+  let displayHex = resolveColor(hex, colorMap);
 
-        const div = document.createElement("div");
-        div.className = "color-item";
-        div.innerHTML = `
-          <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
-          <label for="chk-${colorName}">
-            <b>${idx + 1}.</b>
-            <span class="color-swatch" style="background:${displayHex};"></span> 
-            <code>${colorName} — ${displayHex}</code>
-          </label>
-        `;
-        container.appendChild(div);
-      });
+  const div = document.createElement("div");
+  div.className = "color-item";
+ div.innerHTML = `
+  <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
+  <label for="chk-${colorName}">
+    <b>${idx + 1}.</b>
+    <span class="color-swatch" style="background:${displayHex};"></span> 
+    <code>${colorName} — ${displayHex}</code>
+  </label>
+`;
+  container.appendChild(div);
+});
+// ...existing code...
 
       // Search input event
       setTimeout(() => {
