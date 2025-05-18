@@ -63,7 +63,60 @@ header {
   border: 1.5px solid var(--border-color);
   overflow-x: hidden;
 }
+/* Root Tag Change button & select styling */
+.root-tag-btn {
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #23283a;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #38f9d755, 0 1px 1px #fff2 inset;
+  transition: background 0.2s, transform 0.15s;
+  margin-bottom: 6px;
+}
+.root-tag-btn:hover {
+  background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+  color: #fff;
+  transform: scale(1.04);
+}
 
+.root-tag-select {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1.5px solid #43e97b;
+  background: #23283a;
+  color: #fff;
+  font-size: 15px;
+  margin-right: 10px;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 8px #0002 inset;
+  transition: border-color 0.2s;
+}
+.root-tag-select:focus {
+  border-color: #1686d0;
+  outline: none;
+}
+
+.root-tag-apply-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+  color: #fff;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #38f9d755, 0 1px 1px #fff2 inset;
+  transition: background 0.2s, transform 0.15s;
+}
+.root-tag-apply-btn:hover {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #23283a;
+  transform: scale(1.04);
+}
 textarea {
   width: 100%;
   min-height: 120px;
@@ -464,7 +517,25 @@ input[type="file"]::-webkit-file-upload-button:hover {
   </header>
   <div class="container">
     <div class="card">
-      <input type="file" id="xmlFile" accept=".xml">
+  <input type="file" id="xmlFile" accept=".xml" style="flex:1;">
+<div id="rootTagChangeBox" style="text-align:center; margin:18px 0;">
+  <button id="showRootOptionsBtn" onclick="showRootTagOptions()" class="root-tag-btn">
+    🏷️ Root
+  </button>
+  <button onclick="refreshPage()" class="root-tag-btn" style="margin-left:12px;">
+    🔄 Refresh
+  </button>
+  <div id="rootTagOptions" style="display:none; margin-top:12px;">
+    <select id="rootTagSelect" class="root-tag-select">
+      <option value="resources">&lt;resources&gt;</option>
+      <option value="MIUI_Theme_Values">&lt;MIUI_Theme_Values&gt;</option>
+      <option value='MIUI_Theme_Values template="DarkTemplate"'>&lt;MIUI_Theme_Values template="DarkTemplate"&gt;</option>
+      <option value='MIUI_Theme_Values template="LightTemplate"'>&lt;MIUI_Theme_Values template="LightTemplate"&gt;</option>
+      <option value="ThemeValues">&lt;ThemeValues&gt;</option>
+    </select>
+    <button onclick="changeRootTagSelect()" class="root-tag-apply-btn">Apply</button>
+  </div>
+</div>
       <textarea id="input" placeholder="Paste or upload your XML here..."  spellcheck="false" ></textarea>
  <div class="button-group">
   <button onclick="extractColors()">Show Colors</button>
@@ -495,6 +566,38 @@ input[type="file"]::-webkit-file-upload-button:hover {
   </div>
 
   <script>
+
+function changeRootTagSelect() {
+  const input = document.getElementById("input");
+  let xml = input.value;
+  const newRootRaw = document.getElementById("rootTagSelect").value;
+
+  // newRootRaw থেকে tagName ও attribute আলাদা করো
+  const tagMatch = newRootRaw.match(/^([^\s]+)(.*)$/);
+  const newTag = tagMatch[1];
+  const newAttr = tagMatch[2] || "";
+
+  // detect old root tag (first tag after <?xml ...?>)
+  const match = xml.match(/<([a-zA-Z_][\w\-\.]*)([^>]*)>/);
+  if (!match) {
+    alert("No root tag found!");
+    return;
+  }
+  const oldRoot = match[1];
+
+  // Replace opening and closing root tag (with attributes preserved)
+  xml = xml.replace(
+    new RegExp(`<${oldRoot}([^>]*)>`, "i"),
+    `<${newTag}${newAttr}>`
+  ).replace(
+    new RegExp(`</${oldRoot}>`, "i"),
+    `</${newTag}>`
+  );
+
+  input.value = xml;
+  extractColors();
+}
+
     // ...তোমার আগের JS অপরিবর্তিত...
     // (কোনো পরিবর্তন দরকার নেই, শুধু HTML structure বদলেছে)
     const presetColors = ['#ff1686d0','#ff006378','#ff00ff62','#ff061d2e','#b80a2e39','#ff041c30','#ffffc300','#ffff7e29','#ffff5ca1','#ffe68585','#ff7646ff','#00000000'];
@@ -539,6 +642,10 @@ function renderPresetColors() {
       redoStack.length = 0;
     }
 
+function refreshPage() {
+  window.location.reload();
+}
+
     function undo() {
       if (historyStack.length > 1) {
         redoStack.push(historyStack.pop());
@@ -556,6 +663,10 @@ function renderPresetColors() {
       }
     }
 
+function showRootTagOptions() {
+  document.getElementById("rootTagOptions").style.display = "inline-block";
+  document.getElementById("showRootOptionsBtn").style.display = "none";
+}
 
 function formatXML() {
   let text = document.getElementById("input").value;
@@ -612,6 +723,10 @@ function minifyXML() {
         initialState = reader.result;
         saveState();
         extractColors();
+         // নিচের লাইনটা যোগ করো
+    document.getElementById("rootTagChangeBox").style.display = "block";
+    document.getElementById("rootTagOptions").style.display = "none";
+    document.getElementById("showRootOptionsBtn").style.display = "inline-block";
       };
       reader.readAsText(e.target.files[0]);
     });
