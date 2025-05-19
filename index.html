@@ -418,6 +418,7 @@
         transition: background-color 0.3s;
         box-shadow: 0 2px 8px #0002;
         background: linear-gradient(135deg, #23283a 80%, #23283a 100%);
+        border: 2.5px solid var(--border-color);
       }
       .color-item:hover {
         background: #23283a;
@@ -447,6 +448,12 @@
         cursor: pointer;
         font-weight: 500;
         letter-spacing: 0.2px;
+      }
+      .color-item.selected {
+        border: 2.5px solid #43e97b !important;
+        box-shadow: 0 0 0 3px #43e97b99, 0 2px 8px #38f9d755;
+        background: linear-gradient(90deg, #43e97b22 0%, #38f9d722 100%);
+        transition: background 0.2s, box-shadow 0.2s, border 0.2s;
       }
       .color-swatch {
         display: inline-block;
@@ -545,20 +552,20 @@
         transform: scale(1.12);
         opacity: 1;
       }
-
       #floatingGoBtn {
-  width: 60px !important;
-  height: 60px !important;
-  font-size: 20px !important;
-  right: 8px !important;
-  bottom: 110px !important;
-}
-#goModal {
-  right: 12px !important;
-  bottom: 170px !important;
-  min-width: 160px !important;
-  padding: 12px 8px 10px 8px !important;
-}
+        width: 150px !important;
+        height: 150px !important;
+        font-size: 20px !important;
+        right: 8px !important;
+        bottom: 110px !important;
+      }
+      #goModal {
+        right: 12px !important;
+        bottom: 170px !important;
+        min-width: 160px !important;
+        padding: 12px 8px 10px 8px !important;
+      }
+
       @media (max-width: 900px) {
         .container {
           max-width: 99vw;
@@ -652,21 +659,19 @@
           font-size: 20px;
         }
       }
-
-#floatingGoBtn {
-  width: 38px !important;
-  height: 38px !important;
-  font-size: 20px !important;
-  right: 8px !important;
-  bottom: 110px !important;
-}
-#goModal {
-  right: 12px !important;
-  bottom: 170px !important;
-  min-width: 160px !important;
-  padding: 12px 8px 10px 8px !important;
-}
-
+      #floatingGoBtn {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 20px !important;
+        right: 8px !important;
+        bottom: 110px !important;
+      }
+      #goModal {
+        right: 12px !important;
+        bottom: 170px !important;
+        min-width: 160px !important;
+        padding: 12px 8px 10px 8px !important;
+      }
       @media (max-width: 400px) {
         .logo {
           font-size: 16px;
@@ -731,20 +736,20 @@
           gap: 4px;
         }
       }
-        #floatingGoBtn {
-    width: 40px !important;
-    height: 40px !important;
-    font-size: 15px !important;
-    right: 12px !important;
-    bottom: 100px !important;
-  }
-  #goModal {
-    right: 15% !important;
-    bottom: 120px !important;
-    min-width: 110px !important;
-    padding: 7px 2px 7px 2px !important;
-  }
-}
+      #floatingGoBtn {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 15px !important;
+        right: 12px !important;
+        bottom: 100px !important;
+      }
+      #goModal {
+        right: 15% !important;
+        bottom: 120px !important;
+        min-width: 110px !important;
+        padding: 7px 2px 7px 2px !important;
+      }
+      
     </style>
   </head>
   <body>
@@ -832,7 +837,7 @@
           placeholder="📝 Paste or upload your XML here..."
           spellcheck="false"
         ></textarea>
-  <div class="button-group" style="margin-bottom: 10px">
+        <div class="button-group" style="margin-bottom: 10px">
           <button onclick="extractColors()">🎨 Show Colors</button>
           <button onclick="downloadXML('colors.xml')">⬇️ Download</button>
           <button onclick="downloadXML('theme_values.xml')">
@@ -886,13 +891,12 @@
           </button>
         </div>
       </div>
-   <!-- ...existing code... -->
       <div id="colorArea" class="card"></div>
       <!-- Floating Go To Serial Button (above up/down arrows, a bit higher) -->
       <button id="floatingGoBtn" title="Go to Serial" style="
         position: fixed;
         right: 18px;
-        bottom: 130px; /* was 90px, now higher */
+        bottom: 130px;
         z-index: 10001;
         background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
         color: #fff;
@@ -915,7 +919,7 @@
         display: none;
         position: fixed;
         right: 24px;
-        bottom: 230px; /* was 150px, now higher to match button */
+        bottom: 230px;
         z-index: 10002;
         background: #23283a;
         border-radius: 14px;
@@ -964,8 +968,19 @@
         <button id="scrollTopBtn" title="Go to Top">⬆️</button>
         <button id="scrollBottomBtn" title="Go to Bottom">⬇️</button>
       </div>
-<!-- ...existing code... -->
     <script>
+      // ===== Helper for selected effect =====
+      function updateSelectedEffect() {
+        document.querySelectorAll("#colorArea .color-item").forEach(div => {
+          const checkbox = div.querySelector("input[type='checkbox']");
+          if (checkbox && checkbox.checked) {
+            div.classList.add("selected");
+          } else {
+            div.classList.remove("selected");
+          }
+        });
+      }
+
       // Custom file input label update
       document
         .getElementById("xmlFile")
@@ -1191,21 +1206,27 @@
           };
           reader.readAsText(e.target.files[0]);
         });
+
+      // ===== Selection Controls with effect sync =====
       function selectAllColors() {
         document
           .querySelectorAll("#colorArea input[type='checkbox']")
           .forEach((cb) => (cb.checked = true));
+        updateSelectedEffect();
       }
       function deselectAllColors() {
         document
           .querySelectorAll("#colorArea input[type='checkbox']")
           .forEach((cb) => (cb.checked = false));
+        updateSelectedEffect();
       }
       function invertSelection() {
         document
           .querySelectorAll("#colorArea input[type='checkbox']")
           .forEach((cb) => (cb.checked = !cb.checked));
+        updateSelectedEffect();
       }
+
       function resolveColor(hex, colorMap, depth = 0) {
         if (depth > 10) return "#cccccc";
         if (/^@color\//.test(hex)) {
@@ -1286,6 +1307,12 @@
       }
 
       function extractColors() {
+        // Preserve checked state
+        const prevChecked = {};
+        document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => {
+          if (cb.checked) prevChecked[cb.id] = true;
+        });
+
         const textArea = document.getElementById("input");
         let text = textArea.value;
         const regex = /<color\s+name="([^"]+)">([^<]+)<\/color>/g;
@@ -1342,7 +1369,7 @@
           const div = document.createElement("div");
           div.className = "color-item";
           div.setAttribute("data-serial", idx + 1);
-div.innerHTML = `
+          div.innerHTML = `
   <label for="chk-${colorName}" style="flex:1;display:flex;align-items:center;gap:10px;">
     <b class="serial-link" style="cursor:pointer;color:#43e97b;" onclick="goToSerial(${idx + 1})">${idx + 1}.</b>
     <span class="color-swatch" style="background:${displayHex};"></span> 
@@ -1352,6 +1379,14 @@ div.innerHTML = `
   <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
 `;
           container.appendChild(div);
+          // Restore checked state and effect
+          setTimeout(() => {
+            const checkbox = div.querySelector(`#chk-${colorName}`);
+            if (prevChecked[checkbox.id]) checkbox.checked = true;
+            checkbox.addEventListener("change", function () {
+              updateSelectedEffect();
+            });
+          }, 0);
         });
         setTimeout(() => {
           const search = document.getElementById("colorSearch");
@@ -1363,13 +1398,14 @@ div.innerHTML = `
               }
             };
           }
-        }, 0);
-
-        // সব চেকবক্স আনচেক করে দাও (এটাই মূল সমাধান)
-        setTimeout(() => {
-          document
-            .querySelectorAll("#colorArea input[type='checkbox']")
-            .forEach((cb) => (cb.checked = false));
+          // সব চেকবক্স আনচেক করার অংশ শুধু তখনই, যখন কিছুই checked ছিল না
+          const anyChecked = Object.keys(prevChecked).length > 0;
+          if (!anyChecked) {
+            document
+              .querySelectorAll("#colorArea input[type='checkbox']")
+              .forEach((cb) => (cb.checked = false));
+          }
+          updateSelectedEffect();
         }, 0);
       }
       function selectByHex() {
@@ -1386,6 +1422,7 @@ div.innerHTML = `
               cb.checked = true;
             }
           });
+        updateSelectedEffect();
       }
       document.addEventListener("keydown", function (e) {
         if (e.ctrlKey && e.key.toLowerCase() === "z") {
@@ -1478,7 +1515,6 @@ div.innerHTML = `
         });
       };
 
-
       // Floating Go Button Logic
       const floatingGoBtn = document.getElementById("floatingGoBtn");
       const goModal = document.getElementById("goModal");
@@ -1529,9 +1565,6 @@ div.innerHTML = `
           showGoModal();
         }
       });
-
-
-
     </script>
   </body>
 </html>
