@@ -7,11 +7,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-     
       --bg-color: #181c24;
       --card-bg: #23283a;
-      --text-color: #c7e0d1;
-      --accent: #1686d0;
+      --text-color: #eaf7f0;
+      --accent: #43e97b;
       --shadow: 0 6px 24px rgba(0,0,0,0.35), 0 1.5px 1.5px rgba(255,255,255,0.08) inset;
       --border-color: #2d3142;
       --scrollbar-bg: #181c24;
@@ -22,31 +21,27 @@
       --button-hover: #9965f4;
     }
 
-    /* Scrollbar Design (main code e boshano) */
-::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--scrollbar-bg);
-  border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 6px;
-  border: 3px solid var(--scrollbar-bg);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
-}
+    /* Scrollbar Design */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--scrollbar-bg);
+      border-radius: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 6px;
+      border: 3px solid var(--scrollbar-bg);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+    }
 
     body {
       font-family: 'Roboto', sans-serif;
@@ -88,7 +83,94 @@
       margin-bottom: 24px;
       border: 1.5px solid var(--border-color);
       overflow-x: hidden;
+      color: var(--text-color);
     }
+    label,
+    #colorArea h3,
+    .color-inputs label,
+    .selection-controls button,
+    .button-group button,
+    .replace-group button {
+      color: var(--text-color);
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    .button-group button,
+    .selection-controls button,
+    .replace-group button {
+      color: #fff !important;
+      text-shadow: 0 1px 2px #0006;
+    }
+    .button-group button:hover,
+    .selection-controls button:hover,
+    .replace-group button:hover {
+      color: #23283a !important;
+      text-shadow: none;
+    }
+    input[type="text"],
+    textarea {
+      color: #eaf7f0;
+      background: var(--input-bg);
+      border: 2px solid var(--input-border);
+    }
+    input[type="text"]:focus,
+    textarea:focus {
+      color: #fff;
+      border-color: var(--accent);
+      background: #23283a;
+    }
+    input[type="color"] {
+      border: 3px solid var(--accent);
+    }
+    .color-item label,
+    .color-item code {
+      color: #ffeedd;
+      font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+      font-size: 15px;
+      background: none;
+    }
+    .color-item code {
+      color: #aeeaff;
+      background: #23283a;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: 400;
+    }
+    .color-swatch {
+      border: 2.5px solid var(--border-color);
+    }
+    .preset-color {
+      border: 3px solid var(--border-color);
+    }
+    .preset-color.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px #43e97b99, 0 8px 24px #38f9d7aa, 0 2px 8px #fff2 inset;
+    }
+    #colorArea {
+      color: var(--text-color);
+    }
+    #colorArea h3 {
+      color: var(--accent);
+      font-size: clamp(18px, 3vw, 22px);
+      text-shadow: 0 1px 4px #0003;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .color-item button.delete-btn {
+      color: #fff;
+      background: #e74c3c;
+    }
+    .color-item button.delete-btn:hover {
+      background: #c0392b;
+      color: #fff;
+    }
+    ::-webkit-input-placeholder { color: #b0c4d4; opacity: 1; }
+    ::-moz-placeholder { color: #b0c4d4; opacity: 1; }
+    :-ms-input-placeholder { color: #b0c4d4; opacity: 1; }
+    ::placeholder { color: #b0c4d4; opacity: 1; }
+
     .root-tag-btn {
       padding: 10px 22px;
       border-radius: 10px;
@@ -183,24 +265,6 @@
     textarea::-webkit-scrollbar-corner {
       background: var(--scrollbar-bg);
     }
-    ::-webkit-scrollbar {
-      width: 12px;
-      background: var(--scrollbar-bg);
-      border-radius: 8px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--scrollbar-thumb);
-      border-radius: 8px;
-      border: 3px solid var(--scrollbar-bg);
-      min-height: 40px;
-      box-shadow: 0 2px 8px #111a;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--scrollbar-thumb-hover);
-    }
-    ::-webkit-scrollbar-corner {
-      background: var(--scrollbar-bg);
-    }
     .button-group {
       display: flex;
       flex-wrap: wrap;
@@ -233,7 +297,6 @@
       transform: translateY(-2px) scale(1.04);
       box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
     }
-    /* ...rest of your CSS remains unchanged... */
     .color-inputs {
       display: flex;
       align-items: center;
@@ -412,7 +475,14 @@
     @media (max-width: 600px) {
       .container { width: 100%; max-width: 100vw; padding: 0 2vw; margin: 10px 0; }
       .card { padding: 8px 2vw; border-radius: 10px; }
-      .button-group { flex-direction: column; gap: 8px; align-items: stretch; }
+      .button-group,
+      .replace-group {
+        flex-direction: row !important;
+        align-items: center !important;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
       .color-inputs { flex-direction: column; gap: 8px; align-items: stretch; }
       .preset-colors { gap: 6px; }
       .color-item { flex-direction: column; align-items: flex-start; gap: 6px; padding: 7px 2px; }
@@ -783,82 +853,87 @@
       document.getElementById("input").value = text.trim();
       extractColors();
     }
-    function extractColors() {
-      const textArea = document.getElementById("input");
-      let text = textArea.value;
-      const regex = /<color\s+name="([^"]+)">([^<]+)<\/color>/g;
-      const matches = [...text.matchAll(regex)];
-      const colorMap = {};
-      matches.forEach(match => {
-        colorMap[match[1]] = match[2];
-      });
-      let lines = text.split('\n');
-      let colorIndex = 0;
-      for (let i = 0; i < lines.length; i++) {
-        if (regex.test(lines[i])) {
-          colorIndex++;
-          lines[i] = lines[i].replace(/^(\d+\.\s*)?/, '');
-          lines[i] = colorIndex + '. ' + lines[i];
-        }
-        regex.lastIndex = 0;
-      }
-      textArea.value = lines.join('\n');
-      const container = document.getElementById("colorArea");
-      container.innerHTML = '<h3>🎨 Found Colors:</h3>';
-      container.innerHTML += `
-        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-          <input id="colorSearch" type="text" placeholder="🔍 Search color name or hex..." style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #444;background:#23283a;color:#fff;font-size:15px;" value="${colorFilter || ''}">
-          <button onclick="selectByHex()" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%);color:#222;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:4px;">🎯 Select by Hex</button>
-        </div>
-      `;
-      let filtered = matches;
-      if (colorFilter && colorFilter.trim().length >= 3) {
-        const f = colorFilter.trim().toLowerCase();
-        filtered = matches.filter(
-          m => m[1].toLowerCase().includes(f) || m[2].toLowerCase().includes(f)
-        );
-      }
-      if (filtered.length === 0) {
-        container.innerHTML += "<p>🚫 No colors found.</p>";
-        return;
-      }
-      const controlsDiv = document.createElement('div');
-      controlsDiv.className = 'selection-controls';
-      controlsDiv.innerHTML = `
-        <button onclick="selectAllColors()">✅ Select All</button>
-        <button onclick="deselectAllColors()">❌ Deselect All</button>
-        <button onclick="invertSelection()">🔄 Invert</button>
-      `;
-      container.appendChild(controlsDiv);
-      filtered.forEach((match, idx) => {
-        const colorName = match[1];
-        let hex = match[2];
-        let displayHex = resolveColor(hex, colorMap);
-        const div = document.createElement("div");
-        div.className = "color-item";
-        div.innerHTML = `
-          <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
-          <label for="chk-${colorName}">
-            <b>${idx + 1}.</b>
-            <span class="color-swatch" style="background:${displayHex};"></span> 
-            <code>${colorName} — ${displayHex}</code>
-          </label>
-          <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
-        `;
-        container.appendChild(div);
-      });
-      setTimeout(() => {
-        const search = document.getElementById("colorSearch");
-        if (search) {
-          search.onkeydown = function(e) {
-            if (e.key === "Enter") {
-              colorFilter = this.value;
-              extractColors();
-            }
-          };
-        }
-      }, 0);
+  function extractColors() {
+  const textArea = document.getElementById("input");
+  let text = textArea.value;
+  const regex = /<color\s+name="([^"]+)">([^<]+)<\/color>/g;
+  const matches = [...text.matchAll(regex)];
+  const colorMap = {};
+  matches.forEach(match => {
+    colorMap[match[1]] = match[2];
+  });
+  let lines = text.split('\n');
+  let colorIndex = 0;
+  for (let i = 0; i < lines.length; i++) {
+    if (regex.test(lines[i])) {
+      colorIndex++;
+      lines[i] = lines[i].replace(/^(\d+\.\s*)?/, '');
+      lines[i] = colorIndex + '. ' + lines[i];
     }
+    regex.lastIndex = 0;
+  }
+  textArea.value = lines.join('\n');
+  const container = document.getElementById("colorArea");
+  container.innerHTML = '<h3>🎨 Found Colors:</h3>';
+  container.innerHTML += `
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+      <input id="colorSearch" type="text" placeholder="🔍 Search color name or hex..." style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #444;background:#23283a;color:#fff;font-size:15px;" value="${colorFilter || ''}">
+      <button onclick="selectByHex()" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%);color:#222;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:4px;">🎯 Select by Hex</button>
+    </div>
+  `;
+  let filtered = matches;
+  if (colorFilter && colorFilter.trim().length >= 3) {
+    const f = colorFilter.trim().toLowerCase();
+    filtered = matches.filter(
+      m => m[1].toLowerCase().includes(f) || m[2].toLowerCase().includes(f)
+    );
+  }
+  if (filtered.length === 0) {
+    container.innerHTML += "<p>🚫 No colors found.</p>";
+    return;
+  }
+  const controlsDiv = document.createElement('div');
+  controlsDiv.className = 'selection-controls';
+  controlsDiv.innerHTML = `
+    <button onclick="selectAllColors()">✅ Select All</button>
+    <button onclick="deselectAllColors()">❌ Deselect All</button>
+    <button onclick="invertSelection()">🔄 Invert</button>
+  `;
+  container.appendChild(controlsDiv);
+  filtered.forEach((match, idx) => {
+    const colorName = match[1];
+    let hex = match[2];
+    let displayHex = resolveColor(hex, colorMap);
+    const div = document.createElement("div");
+    div.className = "color-item";
+    div.innerHTML = `
+      <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
+      <label for="chk-${colorName}">
+        <b>${idx + 1}.</b>
+        <span class="color-swatch" style="background:${displayHex};"></span> 
+        <code>${colorName} — ${displayHex}</code>
+      </label>
+      <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
+    `;
+    container.appendChild(div);
+  });
+  setTimeout(() => {
+    const search = document.getElementById("colorSearch");
+    if (search) {
+      search.onkeydown = function(e) {
+        if (e.key === "Enter") {
+          colorFilter = this.value;
+          extractColors();
+        }
+      };
+    }
+  }, 0);
+
+  // সব চেকবক্স আনচেক করে দাও (এটাই মূল সমাধান)
+  setTimeout(() => {
+    document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = false);
+  }, 0);
+}
     function selectByHex() {
       const search = document.getElementById("colorSearch");
       if (!search) return;
@@ -903,24 +978,24 @@
         if (search) search.blur();
       }
     });
-    function replaceSelected() {
-      saveState();
-      const textArea = document.getElementById("input");
-      let text = textArea.value;
-      const newColor = document.getElementById("newColorText").value.trim();
-      const selected = document.querySelectorAll("#colorArea input[type='checkbox']:checked");
-      if (selected.length === 0) {
-        alert("Please select at least one color to replace.");
-        return;
-      }
-      selected.forEach(cb => {
-        const oldColor = cb.getAttribute("data-target");
-        const colorTagRegex = new RegExp(`(<color\\s+name="[^"]+">)${oldColor}(</color>)`, "g");
-        text = text.replace(colorTagRegex, `$1${newColor}$2`);
-      });
-      textArea.value = text;
-      extractColors();
-    }
+function replaceSelected() {
+  saveState();
+  const textArea = document.getElementById("input");
+  let text = textArea.value;
+  const newColor = document.getElementById("newColorText").value.trim();
+  const selected = document.querySelectorAll("#colorArea input[type='checkbox']:checked");
+  if (selected.length === 0) {
+    alert("Please select at least one color to replace.");
+    return;
+  }
+  selected.forEach(cb => {
+    const colorName = cb.id.replace('chk-', '');
+    const colorTagRegex = new RegExp(`(<color\\s+name="${colorName}">)[^<]+(</color>)`, "g");
+    text = text.replace(colorTagRegex, `$1${newColor}$2`);
+  });
+  textArea.value = text;
+  extractColors();
+}
     function replaceAll() {
       saveState();
       const textArea = document.getElementById("input");
