@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🎨 XML Color Replacer Tool</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg-color: #181c24;
       --card-bg: #23283a;
       --text-color: #eaf7f0;
       --accent: #43e97b;
-      --shadow: 0 6px 24px rgba(0,0,0,0.35), 0 1.5px 1.5px rgba(255,255,255,0.08) inset;
+      --shadow: 0 6px 24px rgba(0, 0, 0, 0.35),
+        0 1.5px 1.5px rgba(255, 255, 255, 0.08) inset;
       --border-color: #2d3142;
       --scrollbar-bg: #181c24;
       --scrollbar-thumb: #23283a;
@@ -26,39 +28,45 @@
       width: 12px;
       height: 12px;
     }
+
     ::-webkit-scrollbar-track {
       background: var(--scrollbar-bg);
       border-radius: 6px;
     }
+
     ::-webkit-scrollbar-thumb {
       background: var(--scrollbar-thumb);
       border-radius: 6px;
       border: 3px solid var(--scrollbar-bg);
     }
+
     ::-webkit-scrollbar-thumb:hover {
       background: var(--scrollbar-thumb-hover);
     }
+
     * {
       scrollbar-width: thin;
       scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
     }
 
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: "Roboto", sans-serif;
       background: linear-gradient(135deg, #23283a 0%, #181c24 100%);
       color: var(--text-color);
       min-height: 100vh;
       margin: 0;
     }
+
     header {
       background: var(--card-bg);
       padding: 18px 0 18px 0;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
       display: flex;
       justify-content: center;
       align-items: center;
       border-bottom: 2px solid var(--accent);
     }
+
     .logo {
       font-size: clamp(22px, 5vw, 32px);
       font-weight: bold;
@@ -69,12 +77,14 @@
       align-items: center;
       gap: 10px;
     }
+
     .container {
       width: 98%;
       max-width: 980px;
       margin: 30px auto;
       padding: 0 10px;
     }
+
     .card {
       background: linear-gradient(135deg, #23283a 60%, #23283a 100%);
       border-radius: 20px;
@@ -85,6 +95,7 @@
       overflow-x: hidden;
       color: var(--text-color);
     }
+
     label,
     #colorArea h3,
     .color-inputs label,
@@ -95,40 +106,47 @@
       font-weight: 500;
       letter-spacing: 0.2px;
     }
+
     .button-group button,
     .selection-controls button,
     .replace-group button {
       color: #fff !important;
       text-shadow: 0 1px 2px #0006;
     }
+
     .button-group button:hover,
     .selection-controls button:hover,
     .replace-group button:hover {
       color: #23283a !important;
       text-shadow: none;
     }
+
     input[type="text"],
     textarea {
       color: #eaf7f0;
       background: var(--input-bg);
       border: 2px solid var(--input-border);
     }
+
     input[type="text"]:focus,
     textarea:focus {
       color: #fff;
       border-color: var(--accent);
       background: #23283a;
     }
+
     input[type="color"] {
       border: 3px solid var(--accent);
     }
+
     .color-item label,
     .color-item code {
       color: #ffeedd;
-      font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+      font-family: "Fira Mono", "Consolas", "Menlo", monospace;
       font-size: 15px;
       background: none;
     }
+
     .color-item code {
       color: #aeeaff;
       background: #23283a;
@@ -137,19 +155,25 @@
       font-size: 14px;
       font-weight: 400;
     }
+
     .color-swatch {
       border: 2.5px solid var(--border-color);
     }
+
     .preset-color {
       border: 3px solid var(--border-color);
     }
+
     .preset-color.active {
       border-color: var(--accent);
-      box-shadow: 0 0 0 4px #43e97b99, 0 8px 24px #38f9d7aa, 0 2px 8px #fff2 inset;
+      box-shadow: 0 0 0 4px #43e97b99, 0 8px 24px #38f9d7aa,
+        0 2px 8px #fff2 inset;
     }
+
     #colorArea {
       color: var(--text-color);
     }
+
     #colorArea h3 {
       color: var(--accent);
       font-size: clamp(18px, 3vw, 22px);
@@ -158,18 +182,36 @@
       align-items: center;
       gap: 8px;
     }
+
     .color-item button.delete-btn {
       color: #fff;
       background: #e74c3c;
     }
+
     .color-item button.delete-btn:hover {
       background: #c0392b;
       color: #fff;
     }
-    ::-webkit-input-placeholder { color: #b0c4d4; opacity: 1; }
-    ::-moz-placeholder { color: #b0c4d4; opacity: 1; }
-    :-ms-input-placeholder { color: #b0c4d4; opacity: 1; }
-    ::placeholder { color: #b0c4d4; opacity: 1; }
+
+    ::-webkit-input-placeholder {
+      color: #b0c4d4;
+      opacity: 1;
+    }
+
+    ::-moz-placeholder {
+      color: #b0c4d4;
+      opacity: 1;
+    }
+
+    :-ms-input-placeholder {
+      color: #b0c4d4;
+      opacity: 1;
+    }
+
+    ::placeholder {
+      color: #b0c4d4;
+      opacity: 1;
+    }
 
     .root-tag-btn {
       padding: 10px 22px;
@@ -187,11 +229,13 @@
       align-items: center;
       gap: 6px;
     }
+
     .root-tag-btn:hover {
       background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
       color: #fff;
       transform: scale(1.04);
     }
+
     .root-tag-select {
       padding: 8px 16px;
       border-radius: 8px;
@@ -204,10 +248,12 @@
       box-shadow: 0 2px 8px #0002 inset;
       transition: border-color 0.2s;
     }
+
     .root-tag-select:focus {
       border-color: #1686d0;
       outline: none;
     }
+
     .root-tag-apply-btn {
       padding: 8px 18px;
       border-radius: 8px;
@@ -223,11 +269,13 @@
       align-items: center;
       gap: 6px;
     }
+
     .root-tag-apply-btn:hover {
       background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
       color: #23283a;
       transform: scale(1.04);
     }
+
     textarea {
       width: 100%;
       min-height: 120px;
@@ -247,11 +295,13 @@
       scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
       overflow-y: auto;
     }
+
     textarea::-webkit-scrollbar {
       width: 12px;
       background: var(--scrollbar-bg);
       border-radius: 8px;
     }
+
     textarea::-webkit-scrollbar-thumb {
       background: var(--scrollbar-thumb);
       border-radius: 8px;
@@ -259,12 +309,15 @@
       min-height: 40px;
       box-shadow: 0 2px 8px #111a;
     }
+
     textarea::-webkit-scrollbar-thumb:hover {
       background: var(--scrollbar-thumb-hover);
     }
+
     textarea::-webkit-scrollbar-corner {
       background: var(--scrollbar-bg);
     }
+
     .button-group {
       display: flex;
       flex-wrap: wrap;
@@ -272,6 +325,7 @@
       margin: 18px 0;
       justify-content: center;
     }
+
     .button-group button,
     .selection-controls button {
       background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
@@ -283,7 +337,7 @@
       font-weight: bold;
       font-size: clamp(13px, 2.5vw, 15px);
       box-shadow: 0 3px 12px #0005, 0 1px 1px #fff1 inset;
-      transition: all 0.2s cubic-bezier(.4,2,.3,1);
+      transition: all 0.2s cubic-bezier(0.4, 2, 0.3, 1);
       min-width: max-content;
       white-space: nowrap;
       letter-spacing: 0.5px;
@@ -291,12 +345,14 @@
       align-items: center;
       gap: 6px;
     }
+
     .button-group button:hover,
     .selection-controls button:hover {
       background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
       transform: translateY(-2px) scale(1.04);
       box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
     }
+
     .color-inputs {
       display: flex;
       align-items: center;
@@ -305,6 +361,7 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+
     .color-inputs label {
       font-weight: bold;
       font-size: clamp(15px, 2.5vw, 17px);
@@ -312,6 +369,7 @@
       align-items: center;
       gap: 5px;
     }
+
     .color-inputs input[type="text"] {
       max-width: 110px;
       padding: 6px;
@@ -323,11 +381,13 @@
       box-shadow: 0 1px 4px #0002 inset;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
+
     .color-inputs input[type="text"]:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 2px #bb86fc33, 0 1px 4px #0002 inset;
     }
+
     .color-inputs input[type="color"] {
       border: 3px solid var(--accent);
       background: linear-gradient(135deg, #23283a 60%, #38f9d7 100%);
@@ -343,12 +403,15 @@
       -webkit-appearance: none;
       display: inline-block;
     }
+
     .color-inputs input[type="color"]:hover,
     .color-inputs input[type="color"]:focus {
       border-color: #43e97b;
-      box-shadow: 0 0 0 4px #43e97b55, 0 8px 24px #38f9d7aa, 0 2px 8px #fff2 inset;
+      box-shadow: 0 0 0 4px #43e97b55, 0 8px 24px #38f9d7aa,
+        0 2px 8px #fff2 inset;
       transform: scale(1.08);
     }
+
     .preset-colors {
       display: flex;
       gap: 10px;
@@ -356,6 +419,7 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+
     .preset-color {
       width: 48px;
       height: 48px;
@@ -369,20 +433,25 @@
       align-items: center;
       justify-content: center;
     }
+
     .preset-color:hover {
       border-color: var(--accent);
       transform: scale(1.13);
       box-shadow: 0 6px 18px #bb86fc55, 0 1px 1px #fff2 inset;
     }
+
     .preset-color.active {
       border-color: var(--accent);
-      box-shadow: 0 0 0 4px #43e97b99, 0 8px 24px #38f9d7aa, 0 2px 8px #fff2 inset;
+      box-shadow: 0 0 0 4px #43e97b99, 0 8px 24px #38f9d7aa,
+        0 2px 8px #fff2 inset;
       transform: scale(1.18);
       outline: none;
     }
+
     #colorArea {
       color: var(--text-color);
     }
+
     #colorArea h3 {
       margin-bottom: 18px;
       color: var(--accent);
@@ -392,6 +461,7 @@
       align-items: center;
       gap: 8px;
     }
+
     .color-item {
       margin: 12px 0;
       display: flex;
@@ -404,10 +474,12 @@
       box-shadow: 0 2px 8px #0002;
       background: linear-gradient(135deg, #23283a 80%, #23283a 100%);
     }
+
     .color-item:hover {
       background: #23283a;
       box-shadow: 0 4px 16px #bb86fc33;
     }
+
     .color-item input[type="checkbox"] {
       width: clamp(18px, 3vw, 22px);
       height: clamp(18px, 3vw, 22px);
@@ -419,10 +491,12 @@
       box-shadow: 0 2px 8px #0006, 0 1px 1px #fff2 inset;
       transition: box-shadow 0.2s, border-color 0.2s;
     }
+
     .color-item input[type="checkbox"]:hover {
       border-color: var(--accent);
       box-shadow: 0 4px 16px #bb86fc55, 0 1px 1px #fff2 inset;
     }
+
     .color-item label {
       display: flex;
       align-items: center;
@@ -433,6 +507,7 @@
       font-weight: 500;
       letter-spacing: 0.2px;
     }
+
     .color-swatch {
       display: inline-block;
       width: clamp(22px, 3vw, 26px);
@@ -443,6 +518,7 @@
       box-shadow: 0 2px 8px #0005, 0 1px 1px #fff2 inset;
       margin-right: 2px;
     }
+
     .selection-controls {
       margin: 12px 0 22px 0;
       display: flex;
@@ -450,6 +526,7 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+
     .color-item button.delete-btn {
       margin-left: 8px;
       padding: 4px 10px;
@@ -464,102 +541,11 @@
       align-items: center;
       gap: 4px;
     }
+
     .color-item button.delete-btn:hover {
       background: #c0392b;
     }
-    @media (max-width: 900px) {
-      .container { max-width: 99vw; padding: 0 2vw; }
-      .card { padding: 14px 6px; border-radius: 14px; }
-      .button-group { gap: 7px; }
-    }
-  @media (max-width: 600px) {
-  .container { width: 100%; max-width: 100vw; padding: 0 2vw; margin: 10px 0; }
-  .card { padding: 8px 2vw; border-radius: 10px; }
-  .button-group,
-  .replace-group {
-    flex-direction: row !important;
-    align-items: center !important;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-  }
-  .color-inputs { flex-direction: column; gap: 8px; align-items: stretch; }
-  .preset-colors { gap: 6px; }
-  .color-item { flex-direction: column; align-items: flex-start; gap: 6px; padding: 7px 2px; }
-  .color-item label code { font-size: 13px; word-break: break-all; }
-  #colorArea h3 { font-size: 17px; }
-  .selection-controls {
-    flex-direction: row !important;
-    align-items: center !important;
-    flex-wrap: wrap;
-    gap: 7px;
-    justify-content: center;
-  }
-}
-   @media (max-width: 400px) {
-  .logo {
-    font-size: 16px;
-  }
-  .card {
-    padding: 4px 1vw;
-    border-radius: 7px;
-  }
-  .button-group button,
-  .selection-controls button,
-  .replace-group button {
-    font-size: 12px;
-    padding: 7px 8px;
-    min-width: 0;
-  }
-  .color-inputs label {
-    font-size: 13px;
-  }
-  .color-item label {
-    font-size: 13px;
-    gap: 6px;
-  }
-  .color-item code {
-    font-size: 11px;
-    padding: 1px 4px;
-  }
-  .color-swatch {
-    width: 18px;
-    height: 18px;
-    margin-right: 1px;
-  }
-  .preset-color {
-    width: 32px;
-    height: 32px;
-  }
-  .root-tag-btn,
-  .root-tag-apply-btn {
-    font-size: 13px;
-    padding: 7px 10px;
-    border-radius: 7px;
-  }
-  .root-tag-select {
-    font-size: 12px;
-    padding: 6px 10px;
-    border-radius: 6px;
-  }
-  .replace-group {
-    gap: 6px;
-    margin: 10px 0;
-  }
-  .color-item button.delete-btn {
-    font-size: 11px;
-    padding: 3px 7px;
-    border-radius: 4px;
-    gap: 2px;
-  }
-  .selection-controls {
-    gap: 5px;
-  }
-  #colorArea h3 {
-    font-size: 14px;
-    gap: 4px;
-  }
-}
+
     .replace-group {
       display: flex;
       gap: 10px;
@@ -567,6 +553,7 @@
       margin: 18px 0;
       flex-wrap: wrap;
     }
+
     .replace-group button {
       background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
       border: none;
@@ -577,7 +564,7 @@
       font-weight: bold;
       font-size: clamp(13px, 2.5vw, 15px);
       box-shadow: 0 3px 12px #0005, 0 1px 1px #fff1 inset;
-      transition: all 0.2s cubic-bezier(.4,2,.3,1);
+      transition: all 0.2s cubic-bezier(0.4, 2, 0.3, 1);
       min-width: max-content;
       white-space: nowrap;
       letter-spacing: 0.5px;
@@ -585,96 +572,277 @@
       align-items: center;
       gap: 6px;
     }
+
     .replace-group button:hover {
       background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
       transform: translateY(-2px) scale(1.04);
       box-shadow: 0 6px 18px #38f9d755, 0 1px 1px #fff2 inset;
     }
+
+    @media (max-width: 900px) {
+      .container {
+        max-width: 99vw;
+        padding: 0 2vw;
+      }
+
+      .card {
+        padding: 14px 6px;
+        border-radius: 14px;
+      }
+
+      .button-group {
+        gap: 7px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 100%;
+        max-width: 100vw;
+        padding: 0 2vw;
+        margin: 10px 0;
+      }
+
+      .card {
+        padding: 8px 2vw;
+        border-radius: 10px;
+      }
+
+      .button-group,
+      .replace-group {
+        flex-direction: row !important;
+        align-items: center !important;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .color-inputs {
+        flex-direction: column;
+        gap: 8px;
+        align-items: stretch;
+      }
+
+      .preset-colors {
+        gap: 6px;
+      }
+
+      .color-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 7px 2px;
+      }
+
+      .color-item label code {
+        font-size: 13px;
+        word-break: break-all;
+      }
+
+      #colorArea h3 {
+        font-size: 17px;
+      }
+
+      .selection-controls {
+        flex-direction: row !important;
+        align-items: center !important;
+        flex-wrap: wrap;
+        gap: 7px;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .logo {
+        font-size: 16px;
+      }
+
+      .card {
+        padding: 4px 1vw;
+        border-radius: 7px;
+      }
+
+      .button-group button,
+      .selection-controls button,
+      .replace-group button {
+        font-size: 12px;
+        padding: 7px 8px;
+        min-width: 0;
+      }
+
+      .color-inputs label {
+        font-size: 13px;
+      }
+
+      .color-item label {
+        font-size: 13px;
+        gap: 6px;
+      }
+
+      .color-item code {
+        font-size: 11px;
+        padding: 1px 4px;
+      }
+
+      .color-swatch {
+        width: 18px;
+        height: 18px;
+        margin-right: 1px;
+      }
+
+      .preset-color {
+        width: 32px;
+        height: 32px;
+      }
+
+      .root-tag-btn,
+      .root-tag-apply-btn {
+        font-size: 13px;
+        padding: 7px 10px;
+        border-radius: 7px;
+      }
+
+      .root-tag-select {
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+
+      .replace-group {
+        gap: 6px;
+        margin: 10px 0;
+      }
+
+      .color-item button.delete-btn {
+        font-size: 11px;
+        padding: 3px 7px;
+        border-radius: 4px;
+        gap: 2px;
+      }
+
+      .selection-controls {
+        gap: 5px;
+      }
+
+      #colorArea h3 {
+        font-size: 14px;
+        gap: 4px;
+      }
+    }
   </style>
 </head>
+
 <body>
   <header>
     <div class="logo">🎨 Color Replacer</div>
   </header>
   <div class="container">
     <div class="card">
-      <div style="margin-bottom:24px;">
-        <label for="xmlFile" style="font-weight:bold; margin-bottom:10px; display:block;">📁 Choose XML File:</label>
-        <div style="display:flex; align-items:center; gap:15px;">
+      <div style="margin-bottom: 24px">
+        <label for="xmlFile" style="font-weight: bold; margin-bottom: 10px; display: block">📁 Choose XML File:</label>
+        <div style="display: flex; align-items: center; gap: 15px">
           <label for="xmlFile" id="customFileBtn" style="
-            background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
-            color: #fff;
-            padding: 10px 22px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 8px #38f9d755;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: none;
-            font-size: 16px;
-            transition: background 0.2s, transform 0.15s;
-          ">
+                background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+                color: #fff;
+                padding: 10px 22px;
+                border-radius: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                box-shadow: 0 2px 8px #38f9d755;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                border: none;
+                font-size: 16px;
+                transition: background 0.2s, transform 0.15s;
+              ">
             <span>📂 Browse</span>
           </label>
-          <span id="fileName" style="color:#bbb; font-size:15px;">No file chosen</span>
-          <input type="file" id="xmlFile" accept=".xml" style="display:none;">
+          <span id="fileName" style="color: #bbb; font-size: 15px">No file chosen</span>
+          <input type="file" id="xmlFile" accept=".xml" style="display: none" />
         </div>
       </div>
-      <div id="rootTagChangeBox" style="text-align:center; margin:18px 0;">
-        <button id="showRootOptionsBtn" onclick="showRootTagOptions()" class="root-tag-btn">🏷️ Root</button>
-        <button id="refreshBtn" onclick="refreshPage()" class="root-tag-btn" style="margin-left:12px;">🔄 Refresh</button>
-        <div id="rootTagOptions" style="display:none; margin-top:12px;">
+      <div id="rootTagChangeBox" style="text-align: center; margin: 18px 0">
+        <button id="showRootOptionsBtn" onclick="showRootTagOptions()" class="root-tag-btn">
+          🏷️ Root
+        </button>
+        <button id="refreshBtn" onclick="refreshPage()" class="root-tag-btn" style="margin-left: 12px">
+          🔄 Refresh
+        </button>
+        <div id="rootTagOptions" style="display: none; margin-top: 12px">
           <select id="rootTagSelect" class="root-tag-select">
             <option value="resources">📦 &lt;resources&gt;</option>
-            <option value="MIUI_Theme_Values">🧩 &lt;MIUI_Theme_Values&gt;</option>
-            <option value='MIUI_Theme_Values template="DarkTemplate"'>🌑 &lt;MIUI_Theme_Values template="DarkTemplate"&gt;</option>
-            <option value='MIUI_Theme_Values template="LightTemplate"'>🌕 &lt;MIUI_Theme_Values template="LightTemplate"&gt;</option>
+            <option value="MIUI_Theme_Values">
+              🧩 &lt;MIUI_Theme_Values&gt;
+            </option>
+            <option value='MIUI_Theme_Values template="DarkTemplate"'>
+              🌑 &lt;MIUI_Theme_Values template="DarkTemplate"&gt;
+            </option>
+            <option value='MIUI_Theme_Values template="LightTemplate"'>
+              🌕 &lt;MIUI_Theme_Values template="LightTemplate"&gt;
+            </option>
             <option value="ThemeValues">🎭 &lt;ThemeValues&gt;</option>
           </select>
-          <button onclick="changeRootTagSelect()" class="root-tag-apply-btn">✅ Apply</button>
+          <button onclick="changeRootTagSelect()" class="root-tag-apply-btn">
+            ✅ Apply
+          </button>
         </div>
       </div>
       <textarea id="input" placeholder="📝 Paste or upload your XML here..." spellcheck="false"></textarea>
-      <div class="button-group" style="margin-bottom:10px;">
+      <div class="button-group" style="margin-bottom: 10px">
         <button onclick="extractColors()">🎨 Show Colors</button>
         <button onclick="downloadXML('colors.xml')">⬇️ Download</button>
-        <button onclick="downloadXML('theme_values.xml')">⬇️ Download Theme</button>
+        <button onclick="downloadXML('theme_values.xml')">
+          ⬇️ Download Theme
+        </button>
       </div>
-      <div class="button-group" style="margin-bottom:10px;">
+      <div class="button-group" style="margin-bottom: 10px">
         <button onclick="undo()">↩️ Undo</button>
         <button onclick="redo()">↪️ Redo</button>
         <button onclick="formatXML()" title="Format XML">🧹 Format</button>
-        <button onclick="beautifyXML()" title="Beautify XML">✨ Beautify</button>
+        <button onclick="beautifyXML()" title="Beautify XML">
+          ✨ Beautify
+        </button>
         <button onclick="minifyXML()" title="Minify XML">🔻 Minify</button>
       </div>
-      <div class="button-group" style="margin-bottom:10px;">
-        <button onclick="sortColorsAlpha()" title="Sort Colors Alphabetically">🔤 Sort Colors</button>
-        <button onclick="restoreInitialXML()" title="Restore Initial XML">♻️ Restore</button>
+      <div class="button-group" style="margin-bottom: 10px">
+        <button onclick="sortColorsAlpha()" title="Sort Colors Alphabetically">
+          🔤 Sort Colors
+        </button>
+        <button onclick="restoreInitialXML()" title="Restore Initial XML">
+          ♻️ Restore
+        </button>
       </div>
       <div class="color-inputs">
         <label for="newColor">🎯 New Color:</label>
-        <input type="color" id="newColor" value="#ff0000">
-        <input type="text" id="newColorText" value="#ff0000" maxlength="7" aria-label="New color hex code">
+        <input type="color" id="newColor" value="#ff0000" />
+        <input type="text" id="newColorText" value="#ff0000" maxlength="7" aria-label="New color hex code" />
         <span id="newColorHex">#ff0000</span>
       </div>
       <div class="preset-colors" id="presetColors"></div>
       <div class="replace-group">
         <button onclick="replaceSelected()">🖌️ Replace Selected</button>
         <button onclick="replaceAll()">🖍️ Replace All</button>
-        <button onclick="deleteSelectedColors()" style="background:#e74c3c;">🗑️ Delete Selected</button>
-        <button onclick="deleteAllColors()" style="background:#e74c3c;">🗑️ Delete All</button>
+        <button onclick="deleteSelectedColors()" style="background: #e74c3c">
+          🗑️ Delete Selected
+        </button>
+        <button onclick="deleteAllColors()" style="background: #e74c3c">
+          🗑️ Delete All
+        </button>
       </div>
     </div>
     <div id="colorArea" class="card"></div>
   </div>
   <script>
     // Custom file input label update
-    document.getElementById('xmlFile').addEventListener('change', function(e) {
-      const fileName = e.target.files.length ? e.target.files[0].name : 'No file chosen';
-      document.getElementById('fileName').textContent = fileName;
-    });
+    document
+      .getElementById("xmlFile")
+      .addEventListener("change", function (e) {
+        const fileName = e.target.files.length
+          ? e.target.files[0].name
+          : "No file chosen";
+        document.getElementById("fileName").textContent = fileName;
+      });
 
     // ===== Root Tag Change Function =====
     function changeRootTagSelect() {
@@ -690,24 +858,35 @@
         return;
       }
       const oldRoot = match[1];
-      xml = xml.replace(
-        new RegExp(`<${oldRoot}([^>]*)>`, "i"),
-        `<${newTag}${newAttr}>`
-      ).replace(
-        new RegExp(`</${oldRoot}>`, "i"),
-        `</${newTag}>`
-      );
+      xml = xml
+        .replace(
+          new RegExp(`<${oldRoot}([^>]*)>`, "i"),
+          `<${newTag}${newAttr}>`
+        )
+        .replace(new RegExp(`</${oldRoot}>`, "i"), `</${newTag}>`);
       input.value = xml;
       extractColors();
       document.getElementById("rootTagOptions").style.display = "none";
-      document.getElementById("showRootOptionsBtn").style.display = "inline-block";
+      document.getElementById("showRootOptionsBtn").style.display =
+        "inline-block";
     }
     // ===== Preset Colors, History, State =====
     const presetColors = [
-      '#ff1686d0','#ff006378','#ff00ff62','#ff061d2e','#b80a2e39','#ff041c30',
-      '#ffffc300','#ffff7e29','#ffff5ca1','#ffe68585','#ff7646ff','#00000000'
+      "#ff1686d0",
+      "#ff006378",
+      "#ff00ff62",
+      "#ff061d2e",
+      "#b80a2e39",
+      "#ff041c30",
+      "#ffffc300",
+      "#ffff7e29",
+      "#ffff5ca1",
+      "#ffe68585",
+      "#ff7646ff",
+      "#00000000",
     ];
-    const historyStack = [], redoStack = [];
+    const historyStack = [],
+      redoStack = [];
     let initialState = "";
     let colorFilter = "";
     // ===== Color Hex Conversion =====
@@ -719,17 +898,17 @@
     // ===== Color Input Update =====
     function updateColorInputs(color) {
       let color6 = hex8ToHex6(color);
-      document.getElementById('newColor').value = color6;
-      document.getElementById('newColorText').value = color6;
-      document.getElementById('newColorHex').innerText = color6;
+      document.getElementById("newColor").value = color6;
+      document.getElementById("newColorText").value = color6;
+      document.getElementById("newColorHex").innerText = color6;
       renderPresetColors();
     }
     // ===== Render Preset Colors =====
     function renderPresetColors() {
       const container = document.getElementById("presetColors");
       container.innerHTML = "";
-      const current = document.getElementById('newColor').value.toLowerCase();
-      presetColors.forEach(color => {
+      const current = document.getElementById("newColor").value.toLowerCase();
+      presetColors.forEach((color) => {
         const div = document.createElement("div");
         div.className = "preset-color";
         div.style.backgroundColor = hex8ToHex6(color);
@@ -755,7 +934,8 @@
     function undo() {
       if (historyStack.length > 1) {
         redoStack.push(historyStack.pop());
-        document.getElementById("input").value = historyStack[historyStack.length - 1];
+        document.getElementById("input").value =
+          historyStack[historyStack.length - 1];
         extractColors();
       }
     }
@@ -769,39 +949,49 @@
     }
     // ===== Show Root Tag Options =====
     function showRootTagOptions() {
-      document.getElementById("rootTagOptions").style.display = "inline-block";
+      document.getElementById("rootTagOptions").style.display =
+        "inline-block";
       document.getElementById("showRootOptionsBtn").style.display = "none";
     }
     // ===== Format/Beautify/Minify XML =====
     function formatXML() {
       let text = document.getElementById("input").value;
       try {
-        let formatted = text.replace(/>\s*</g, '>\n<');
-        let pad = 0, result = '';
-        formatted.split('\n').forEach(line => {
+        let formatted = text.replace(/>\s*</g, ">\n<");
+        let pad = 0,
+          result = "";
+        formatted.split("\n").forEach((line) => {
           if (line.match(/^<\/\w/)) pad--;
-          result += '  '.repeat(pad) + line + '\n';
-          if (line.match(/^<[^!?\/][^>]*[^\/]>$/)) { pad++; }
+          result += "  ".repeat(pad) + line + "\n";
+          if (line.match(/^<[^!?\/][^>]*[^\/]>$/)) {
+            pad++;
+          }
         });
         document.getElementById("input").value = result.trim();
-      } catch {}
+      } catch { }
     }
     function beautifyXML() {
       let text = document.getElementById("input").value;
       try {
-        let formatted = text.replace(/>\s*</g, '>\n<');
-        let pad = 0, result = '';
-        formatted.split('\n').forEach(line => {
+        let formatted = text.replace(/>\s*</g, ">\n<");
+        let pad = 0,
+          result = "";
+        formatted.split("\n").forEach((line) => {
           if (line.match(/^<\/\w/)) pad--;
-          result += '  '.repeat(pad) + line.trim() + '\n';
-          if (line.match(/^<[^!?\/][^>]*[^\/]>$/)) { pad++; }
+          result += "  ".repeat(pad) + line.trim() + "\n";
+          if (line.match(/^<[^!?\/][^>]*[^\/]>$/)) {
+            pad++;
+          }
         });
         document.getElementById("input").value = result.trim();
-      } catch {}
+      } catch { }
     }
     function minifyXML() {
       let text = document.getElementById("input").value;
-      let minified = text.replace(/>\s+</g, '><').replace(/\s{2,}/g, ' ').trim();
+      let minified = text
+        .replace(/>\s+</g, "><")
+        .replace(/\s{2,}/g, " ")
+        .trim();
       document.getElementById("input").value = minified;
     }
     // ===== Sort Colors Alphabetically =====
@@ -812,16 +1002,24 @@
       const colorRegex = /<color\s+name="([^"]+)">([^<]+)<\/color>/g;
       let matches = [...text.matchAll(colorRegex)];
       if (matches.length === 0) return;
-      let textWithoutColors = text.replace(colorRegex, '').trim();
+      let textWithoutColors = text.replace(colorRegex, "").trim();
       matches.sort((a, b) => a[1].localeCompare(b[1]));
-      let sortedColors = matches.map(m => `<color name="${m[1]}">${m[2]}</color>`).join('\n');
+      let sortedColors = matches
+        .map((m) => `<color name="${m[1]}">${m[2]}</color>`)
+        .join("\n");
       let finalText = textWithoutColors
-        ? textWithoutColors.replace(/(<\/[a-zA-Z_][\w\-\.]*>\s*)$/, sortedColors + '\n$1')
+        ? textWithoutColors.replace(
+          /(<\/[a-zA-Z_][\w\-\.]*>\s*)$/,
+          sortedColors + "\n$1"
+        )
         : sortedColors;
-      if (/<[a-zA-Z_][\w\-\.]*[^>]*>/.test(finalText) && /<\/[a-zA-Z_][\w\-\.]*>/.test(finalText)) {
+      if (
+        /<[a-zA-Z_][\w\-\.]*[^>]*>/.test(finalText) &&
+        /<\/[a-zA-Z_][\w\-\.]*>/.test(finalText)
+      ) {
         finalText = finalText.replace(
           /(<[a-zA-Z_][\w\-\.]*[^>]*>)([\s\S]*)(<\/[a-zA-Z_][\w\-\.]*>)/,
-          (_, open, inner, close) => open + '\n' + sortedColors + '\n' + close
+          (_, open, inner, close) => open + "\n" + sortedColors + "\n" + close
         );
       }
       textArea.value = finalText.trim();
@@ -834,43 +1032,52 @@
         extractColors();
       }
     }
-    document.getElementById("newColor").addEventListener("input", e => {
+    document.getElementById("newColor").addEventListener("input", (e) => {
       document.getElementById("newColorText").value = e.target.value;
       document.getElementById("newColorHex").innerText = e.target.value;
     });
-    document.getElementById("newColorText").addEventListener("input", e => {
+    document.getElementById("newColorText").addEventListener("input", (e) => {
       const val = e.target.value;
       if (/^#([0-9a-f]{6})$/i.test(val)) {
         document.getElementById("newColor").value = val;
         document.getElementById("newColorHex").innerText = val;
       }
     });
-    document.getElementById("xmlFile").addEventListener("change", function (e) {
-      const reader = new FileReader();
-      reader.onload = function () {
-        document.getElementById("input").value = reader.result;
-        initialState = reader.result;
-        saveState();
-        extractColors();
-        document.getElementById("rootTagChangeBox").style.display = "block";
-        document.getElementById("rootTagOptions").style.display = "none";
-        document.getElementById("showRootOptionsBtn").style.display = "inline-block";
-      };
-      reader.readAsText(e.target.files[0]);
-    });
+    document
+      .getElementById("xmlFile")
+      .addEventListener("change", function (e) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          document.getElementById("input").value = reader.result;
+          initialState = reader.result;
+          saveState();
+          extractColors();
+          document.getElementById("rootTagChangeBox").style.display = "block";
+          document.getElementById("rootTagOptions").style.display = "none";
+          document.getElementById("showRootOptionsBtn").style.display =
+            "inline-block";
+        };
+        reader.readAsText(e.target.files[0]);
+      });
     function selectAllColors() {
-      document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = true);
+      document
+        .querySelectorAll("#colorArea input[type='checkbox']")
+        .forEach((cb) => (cb.checked = true));
     }
     function deselectAllColors() {
-      document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = false);
+      document
+        .querySelectorAll("#colorArea input[type='checkbox']")
+        .forEach((cb) => (cb.checked = false));
     }
     function invertSelection() {
-      document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = !cb.checked);
+      document
+        .querySelectorAll("#colorArea input[type='checkbox']")
+        .forEach((cb) => (cb.checked = !cb.checked));
     }
     function resolveColor(hex, colorMap, depth = 0) {
       if (depth > 10) return "#cccccc";
       if (/^@color\//.test(hex)) {
-        const refName = hex.replace('@color/', '');
+        const refName = hex.replace("@color/", "");
         if (colorMap[refName]) {
           return resolveColor(colorMap[refName], colorMap, depth + 1);
         } else {
@@ -883,8 +1090,11 @@
     function deleteColorByName(colorName) {
       saveState();
       let text = document.getElementById("input").value;
-      const regex = new RegExp(`^\\d*\\.?\\s*<color\\s+name="${colorName}">[^<]+<\\/color>\\s*$`, 'm');
-      text = text.replace(regex, '').replace(/^\s*\n/gm, '');
+      const regex = new RegExp(
+        `^\\d*\\.?\\s*<color\\s+name="${colorName}">[^<]+<\\/color>\\s*$`,
+        "m"
+      );
+      text = text.replace(regex, "").replace(/^\s*\n/gm, "");
       document.getElementById("input").value = text.trim();
       extractColors();
     }
@@ -892,17 +1102,22 @@
     function deleteSelectedColors() {
       saveState();
       let text = document.getElementById("input").value;
-      const selected = document.querySelectorAll("#colorArea input[type='checkbox']:checked");
+      const selected = document.querySelectorAll(
+        "#colorArea input[type='checkbox']:checked"
+      );
       if (selected.length === 0) {
         alert("Please select at least one color to delete.");
         return;
       }
-      selected.forEach(cb => {
-        const colorName = cb.id.replace('chk-', '');
-        const regex = new RegExp(`^\\d*\\.?\\s*<color\\s+name="${colorName}">[^<]+<\\/color>\\s*$`, 'm');
-        text = text.replace(regex, '');
+      selected.forEach((cb) => {
+        const colorName = cb.id.replace("chk-", "");
+        const regex = new RegExp(
+          `^\\d*\\.?\\s*<color\\s+name="${colorName}">[^<]+<\\/color>\\s*$`,
+          "m"
+        );
+        text = text.replace(regex, "");
       });
-      text = text.replace(/^\s*\n/gm, '');
+      text = text.replace(/^\s*\n/gm, "");
       document.getElementById("input").value = text.trim();
       extractColors();
     }
@@ -911,65 +1126,70 @@
       if (!confirm("Delete all color lines? This cannot be undone!")) return;
       saveState();
       let text = document.getElementById("input").value;
-      text = text.replace(/^\d*\.?\s*<color\s+name="[^"]+">[^<]+<\/color>\s*$/gm, '');
-      text = text.replace(/^\s*\n/gm, '');
+      text = text.replace(
+        /^\d*\.?\s*<color\s+name="[^"]+">[^<]+<\/color>\s*$/gm,
+        ""
+      );
+      text = text.replace(/^\s*\n/gm, "");
       document.getElementById("input").value = text.trim();
       extractColors();
     }
-  function extractColors() {
-  const textArea = document.getElementById("input");
-  let text = textArea.value;
-  const regex = /<color\s+name="([^"]+)">([^<]+)<\/color>/g;
-  const matches = [...text.matchAll(regex)];
-  const colorMap = {};
-  matches.forEach(match => {
-    colorMap[match[1]] = match[2];
-  });
-  let lines = text.split('\n');
-  let colorIndex = 0;
-  for (let i = 0; i < lines.length; i++) {
-    if (regex.test(lines[i])) {
-      colorIndex++;
-      lines[i] = lines[i].replace(/^(\d+\.\s*)?/, '');
-      lines[i] = colorIndex + '. ' + lines[i];
-    }
-    regex.lastIndex = 0;
-  }
-  textArea.value = lines.join('\n');
-  const container = document.getElementById("colorArea");
-  container.innerHTML = '<h3>🎨 Found Colors:</h3>';
-  container.innerHTML += `
+    function extractColors() {
+      const textArea = document.getElementById("input");
+      let text = textArea.value;
+      const regex = /<color\s+name="([^"]+)">([^<]+)<\/color>/g;
+      const matches = [...text.matchAll(regex)];
+      const colorMap = {};
+      matches.forEach((match) => {
+        colorMap[match[1]] = match[2];
+      });
+      let lines = text.split("\n");
+      let colorIndex = 0;
+      for (let i = 0; i < lines.length; i++) {
+        if (regex.test(lines[i])) {
+          colorIndex++;
+          lines[i] = lines[i].replace(/^(\d+\.\s*)?/, "");
+          lines[i] = colorIndex + ". " + lines[i];
+        }
+        regex.lastIndex = 0;
+      }
+      textArea.value = lines.join("\n");
+      const container = document.getElementById("colorArea");
+      container.innerHTML = "<h3>🎨 Found Colors:</h3>";
+      container.innerHTML += `
     <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-      <input id="colorSearch" type="text" placeholder="🔍 Search color name or hex..." style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #444;background:#23283a;color:#fff;font-size:15px;" value="${colorFilter || ''}">
+      <input id="colorSearch" type="text" placeholder="🔍 Search color name or hex..." style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #444;background:#23283a;color:#fff;font-size:15px;" value="${colorFilter || ""
+        }">
       <button onclick="selectByHex()" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%);color:#222;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:4px;">🎯 Select by Hex</button>
     </div>
   `;
-  let filtered = matches;
-  if (colorFilter && colorFilter.trim().length >= 3) {
-    const f = colorFilter.trim().toLowerCase();
-    filtered = matches.filter(
-      m => m[1].toLowerCase().includes(f) || m[2].toLowerCase().includes(f)
-    );
-  }
-  if (filtered.length === 0) {
-    container.innerHTML += "<p>🚫 No colors found.</p>";
-    return;
-  }
-  const controlsDiv = document.createElement('div');
-  controlsDiv.className = 'selection-controls';
-  controlsDiv.innerHTML = `
+      let filtered = matches;
+      if (colorFilter && colorFilter.trim().length >= 3) {
+        const f = colorFilter.trim().toLowerCase();
+        filtered = matches.filter(
+          (m) =>
+            m[1].toLowerCase().includes(f) || m[2].toLowerCase().includes(f)
+        );
+      }
+      if (filtered.length === 0) {
+        container.innerHTML += "<p>🚫 No colors found.</p>";
+        return;
+      }
+      const controlsDiv = document.createElement("div");
+      controlsDiv.className = "selection-controls";
+      controlsDiv.innerHTML = `
     <button onclick="selectAllColors()">✅ Select All</button>
     <button onclick="deselectAllColors()">❌ Deselect All</button>
     <button onclick="invertSelection()">🔄 Invert</button>
   `;
-  container.appendChild(controlsDiv);
-  filtered.forEach((match, idx) => {
-    const colorName = match[1];
-    let hex = match[2];
-    let displayHex = resolveColor(hex, colorMap);
-    const div = document.createElement("div");
-    div.className = "color-item";
-    div.innerHTML = `
+      container.appendChild(controlsDiv);
+      filtered.forEach((match, idx) => {
+        const colorName = match[1];
+        let hex = match[2];
+        let displayHex = resolveColor(hex, colorMap);
+        const div = document.createElement("div");
+        div.className = "color-item";
+        div.innerHTML = `
       <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
       <label for="chk-${colorName}">
         <b>${idx + 1}.</b>
@@ -978,25 +1198,27 @@
       </label>
       <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
     `;
-    container.appendChild(div);
-  });
-  setTimeout(() => {
-    const search = document.getElementById("colorSearch");
-    if (search) {
-      search.onkeydown = function(e) {
-        if (e.key === "Enter") {
-          colorFilter = this.value;
-          extractColors();
+        container.appendChild(div);
+      });
+      setTimeout(() => {
+        const search = document.getElementById("colorSearch");
+        if (search) {
+          search.onkeydown = function (e) {
+            if (e.key === "Enter") {
+              colorFilter = this.value;
+              extractColors();
+            }
+          };
         }
-      };
-    }
-  }, 0);
+      }, 0);
 
-  // সব চেকবক্স আনচেক করে দাও (এটাই মূল সমাধান)
-  setTimeout(() => {
-    document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => cb.checked = false);
-  }, 0);
-}
+      // সব চেকবক্স আনচেক করে দাও (এটাই মূল সমাধান)
+      setTimeout(() => {
+        document
+          .querySelectorAll("#colorArea input[type='checkbox']")
+          .forEach((cb) => (cb.checked = false));
+      }, 0);
+    }
     function selectByHex() {
       const search = document.getElementById("colorSearch");
       if (!search) return;
@@ -1004,13 +1226,15 @@
       extractColors();
       const hex = colorFilter.toLowerCase();
       if (!hex) return;
-      document.querySelectorAll("#colorArea input[type='checkbox']").forEach(cb => {
-        if (cb.getAttribute("data-target").toLowerCase() === hex) {
-          cb.checked = true;
-        }
-      });
+      document
+        .querySelectorAll("#colorArea input[type='checkbox']")
+        .forEach((cb) => {
+          if (cb.getAttribute("data-target").toLowerCase() === hex) {
+            cb.checked = true;
+          }
+        });
     }
-    document.addEventListener("keydown", function(e) {
+    document.addEventListener("keydown", function (e) {
       if (e.ctrlKey && e.key.toLowerCase() === "z") {
         e.preventDefault();
         undo();
@@ -1041,24 +1265,29 @@
         if (search) search.blur();
       }
     });
-function replaceSelected() {
-  saveState();
-  const textArea = document.getElementById("input");
-  let text = textArea.value;
-  const newColor = document.getElementById("newColorText").value.trim();
-  const selected = document.querySelectorAll("#colorArea input[type='checkbox']:checked");
-  if (selected.length === 0) {
-    alert("Please select at least one color to replace.");
-    return;
-  }
-  selected.forEach(cb => {
-    const colorName = cb.id.replace('chk-', '');
-    const colorTagRegex = new RegExp(`(<color\\s+name="${colorName}">)[^<]+(</color>)`, "g");
-    text = text.replace(colorTagRegex, `$1${newColor}$2`);
-  });
-  textArea.value = text;
-  extractColors();
-}
+    function replaceSelected() {
+      saveState();
+      const textArea = document.getElementById("input");
+      let text = textArea.value;
+      const newColor = document.getElementById("newColorText").value.trim();
+      const selected = document.querySelectorAll(
+        "#colorArea input[type='checkbox']:checked"
+      );
+      if (selected.length === 0) {
+        alert("Please select at least one color to replace.");
+        return;
+      }
+      selected.forEach((cb) => {
+        const colorName = cb.id.replace("chk-", "");
+        const colorTagRegex = new RegExp(
+          `(<color\\s+name="${colorName}">)[^<]+(</color>)`,
+          "g"
+        );
+        text = text.replace(colorTagRegex, `$1${newColor}$2`);
+      });
+      textArea.value = text;
+      extractColors();
+    }
     function replaceAll() {
       saveState();
       const textArea = document.getElementById("input");
@@ -1079,11 +1308,12 @@ function replaceSelected() {
     }
     renderPresetColors();
     saveState();
-    window.onload = function() {
+    window.onload = function () {
       initialState = document.getElementById("input").value;
       saveState();
       extractColors();
     };
   </script>
 </body>
+
 </html>
