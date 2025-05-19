@@ -472,31 +472,94 @@
       .card { padding: 14px 6px; border-radius: 14px; }
       .button-group { gap: 7px; }
     }
-    @media (max-width: 600px) {
-      .container { width: 100%; max-width: 100vw; padding: 0 2vw; margin: 10px 0; }
-      .card { padding: 8px 2vw; border-radius: 10px; }
-      .button-group,
-      .replace-group {
-        flex-direction: row !important;
-        align-items: center !important;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-      }
-      .color-inputs { flex-direction: column; gap: 8px; align-items: stretch; }
-      .preset-colors { gap: 6px; }
-      .color-item { flex-direction: column; align-items: flex-start; gap: 6px; padding: 7px 2px; }
-      .color-item label code { font-size: 13px; word-break: break-all; }
-      #colorArea h3 { font-size: 17px; }
-      .selection-controls { flex-direction: column; gap: 7px; align-items: stretch; }
-    }
-    @media (max-width: 400px) {
-      .logo { font-size: 16px; }
-      .card { padding: 4px 1vw; }
-      .button-group button,
-      .selection-controls button { font-size: 12px; padding: 7px 8px; }
-      .color-inputs label { font-size: 13px; }
-    }
+  @media (max-width: 600px) {
+  .container { width: 100%; max-width: 100vw; padding: 0 2vw; margin: 10px 0; }
+  .card { padding: 8px 2vw; border-radius: 10px; }
+  .button-group,
+  .replace-group {
+    flex-direction: row !important;
+    align-items: center !important;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .color-inputs { flex-direction: column; gap: 8px; align-items: stretch; }
+  .preset-colors { gap: 6px; }
+  .color-item { flex-direction: column; align-items: flex-start; gap: 6px; padding: 7px 2px; }
+  .color-item label code { font-size: 13px; word-break: break-all; }
+  #colorArea h3 { font-size: 17px; }
+  .selection-controls {
+    flex-direction: row !important;
+    align-items: center !important;
+    flex-wrap: wrap;
+    gap: 7px;
+    justify-content: center;
+  }
+}
+   @media (max-width: 400px) {
+  .logo {
+    font-size: 16px;
+  }
+  .card {
+    padding: 4px 1vw;
+    border-radius: 7px;
+  }
+  .button-group button,
+  .selection-controls button,
+  .replace-group button {
+    font-size: 12px;
+    padding: 7px 8px;
+    min-width: 0;
+  }
+  .color-inputs label {
+    font-size: 13px;
+  }
+  .color-item label {
+    font-size: 13px;
+    gap: 6px;
+  }
+  .color-item code {
+    font-size: 11px;
+    padding: 1px 4px;
+  }
+  .color-swatch {
+    width: 18px;
+    height: 18px;
+    margin-right: 1px;
+  }
+  .preset-color {
+    width: 32px;
+    height: 32px;
+  }
+  .root-tag-btn,
+  .root-tag-apply-btn {
+    font-size: 13px;
+    padding: 7px 10px;
+    border-radius: 7px;
+  }
+  .root-tag-select {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+  .replace-group {
+    gap: 6px;
+    margin: 10px 0;
+  }
+  .color-item button.delete-btn {
+    font-size: 11px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    gap: 2px;
+  }
+  .selection-controls {
+    gap: 5px;
+  }
+  #colorArea h3 {
+    font-size: 14px;
+    gap: 4px;
+  }
+}
     .replace-group {
       display: flex;
       gap: 10px;
