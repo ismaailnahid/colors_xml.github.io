@@ -841,10 +841,82 @@
         </div>
       </div>
       <div id="colorArea" class="card"></div>
-    </div>
-    <div id="scroll-arrows">
-      <button id="scrollTopBtn" title="Go to Top">⬆️</button>
-      <button id="scrollBottomBtn" title="Go to Bottom">⬇️</button>
+      <!-- Floating Go To Serial Button (above up/down arrows) -->
+      <button id="floatingGoBtn" title="Go to Serial" style="
+        position: fixed;
+        right: 18px;
+        bottom: 90px;
+        z-index: 10001;
+        background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+        font-weight: bold;
+        box-shadow: 0 4px 16px #0005, 0 2px 8px #fff2 inset;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.92;
+        transition: background 0.2s, transform 0.15s;
+      ">➡️</button>
+      <!-- Go To Serial Modal -->
+      <div id="goModal" style="
+        display: none;
+        position: fixed;
+        right: 24px;
+        bottom: 150px;
+        z-index: 10002;
+        background: #23283a;
+        border-radius: 14px;
+        box-shadow: 0 4px 24px #000a;
+        padding: 18px 22px 14px 22px;
+        min-width: 210px;
+        border: 2px solid #43e97b;
+        color: #fff;
+        text-align: center;
+      ">
+        <div style="margin-bottom: 10px; font-weight: bold; font-size: 17px;">Go to Serial</div>
+        <input id="goModalInput" type="number" min="1" placeholder="Serial No." style="
+          width: 90px;
+          padding: 8px 10px;
+          border-radius: 8px;
+          border: 1.5px solid #43e97b;
+          background: #181c24;
+          color: #fff;
+          font-size: 16px;
+          margin-bottom: 10px;
+          text-align: center;
+        " />
+        <br>
+        <button id="goModalGoBtn" style="
+          background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+          color: #23283a;
+          border: none;
+          border-radius: 8px;
+          padding: 7px 18px;
+          font-weight: bold;
+          font-size: 15px;
+          cursor: pointer;
+          margin-right: 8px;
+        ">Go</button>
+        <button id="goModalCloseBtn" style="
+          background: #e74c3c;
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          padding: 7px 14px;
+          font-size: 15px;
+          cursor: pointer;
+        ">Close</button>
+      </div>
+      <div id="scroll-arrows">
+        <button id="scrollTopBtn" title="Go to Top">⬆️</button>
+        <button id="scrollBottomBtn" title="Go to Bottom">⬇️</button>
+      </div>
     </div>
     <script>
       // Custom file input label update
@@ -1150,10 +1222,7 @@
 
       // ===== Go To Serial Feature =====
       function goToSerial(num) {
-        if (!num) {
-          num = parseInt(document.getElementById("goSerialInput").value, 10);
-        }
-        if (!num || num < 1) return;
+        if (!num) return;
         const target = document.querySelector(
           `.color-item[data-serial="${num}"]`
         );
@@ -1197,8 +1266,6 @@
         colorFilter || ""
       }">
       <button onclick="selectByHex()" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%);color:#222;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:4px;">🎯 Select by Hex</button>
-      <input id="goSerialInput" type="number" min="1" style="width:60px;padding:7px 8px;border-radius:8px;border:1.5px solid #444;background:#23283a;color:#fff;font-size:15px;" placeholder="No.">
-      <button onclick="goToSerial()" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#00c6fb 0%,#005bea 100%);color:#fff;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:4px;">➡️ Go</button>
     </div>
   `;
         let filtered = matches;
@@ -1364,6 +1431,47 @@
           behavior: "smooth",
         });
       };
+
+      // Floating Go Button Logic
+      const floatingGoBtn = document.getElementById("floatingGoBtn");
+      const goModal = document.getElementById("goModal");
+      const goModalInput = document.getElementById("goModalInput");
+      const goModalGoBtn = document.getElementById("goModalGoBtn");
+      const goModalCloseBtn = document.getElementById("goModalCloseBtn");
+
+      floatingGoBtn.onclick = function () {
+        goModal.style.display = "block";
+        goModalInput.value = "";
+        setTimeout(() => goModalInput.focus(), 100);
+      };
+      goModalCloseBtn.onclick = function () {
+        goModal.style.display = "none";
+      };
+      goModalGoBtn.onclick = function () {
+        const num = parseInt(goModalInput.value, 10);
+        if (num > 0) {
+          goToSerial(num);
+          goModal.style.display = "none";
+        }
+      };
+      goModalInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          goModalGoBtn.click();
+        }
+        if (e.key === "Escape") {
+          goModalCloseBtn.click();
+        }
+      });
+      // Hide modal if clicked outside
+      document.addEventListener("mousedown", function (e) {
+        if (
+          goModal.style.display === "block" &&
+          !goModal.contains(e.target) &&
+          e.target !== floatingGoBtn
+        ) {
+          goModal.style.display = "none";
+        }
+      });
     </script>
   </body>
 </html>
