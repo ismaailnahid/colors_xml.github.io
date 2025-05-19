@@ -840,12 +840,13 @@
           </button>
         </div>
       </div>
+   <!-- ...existing code... -->
       <div id="colorArea" class="card"></div>
-      <!-- Floating Go To Serial Button (above up/down arrows) -->
+      <!-- Floating Go To Serial Button (above up/down arrows, a bit higher) -->
       <button id="floatingGoBtn" title="Go to Serial" style="
         position: fixed;
         right: 18px;
-        bottom: 90px;
+        bottom: 130px; /* was 90px, now higher */
         z-index: 10001;
         background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
         color: #fff;
@@ -868,7 +869,7 @@
         display: none;
         position: fixed;
         right: 24px;
-        bottom: 150px;
+        bottom: 230px; /* was 150px, now higher to match button */
         z-index: 10002;
         background: #23283a;
         border-radius: 14px;
@@ -917,7 +918,7 @@
         <button id="scrollTopBtn" title="Go to Top">⬆️</button>
         <button id="scrollBottomBtn" title="Go to Bottom">⬇️</button>
       </div>
-    </div>
+<!-- ...existing code... -->
     <script>
       // Custom file input label update
       document
@@ -1432,6 +1433,7 @@
         });
       };
 
+
       // Floating Go Button Logic
       const floatingGoBtn = document.getElementById("floatingGoBtn");
       const goModal = document.getElementById("goModal");
@@ -1439,11 +1441,13 @@
       const goModalGoBtn = document.getElementById("goModalGoBtn");
       const goModalCloseBtn = document.getElementById("goModalCloseBtn");
 
-      floatingGoBtn.onclick = function () {
+      function showGoModal() {
         goModal.style.display = "block";
         goModalInput.value = "";
         setTimeout(() => goModalInput.focus(), 100);
-      };
+      }
+
+      floatingGoBtn.onclick = showGoModal;
       goModalCloseBtn.onclick = function () {
         goModal.style.display = "none";
       };
@@ -1472,6 +1476,17 @@
           goModal.style.display = "none";
         }
       });
+
+      // Ctrl+G shortcut for Go To Serial
+      document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key.toLowerCase() === "g") {
+          e.preventDefault();
+          showGoModal();
+        }
+      });
+
+
+
     </script>
   </body>
 </html>
