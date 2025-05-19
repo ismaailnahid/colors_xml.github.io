@@ -545,6 +545,20 @@
         transform: scale(1.12);
         opacity: 1;
       }
+
+      #floatingGoBtn {
+  width: 60px !important;
+  height: 60px !important;
+  font-size: 20px !important;
+  right: 8px !important;
+  bottom: 110px !important;
+}
+#goModal {
+  right: 12px !important;
+  bottom: 170px !important;
+  min-width: 160px !important;
+  padding: 12px 8px 10px 8px !important;
+}
       @media (max-width: 900px) {
         .container {
           max-width: 99vw;
@@ -1328,16 +1342,15 @@
           const div = document.createElement("div");
           div.className = "color-item";
           div.setAttribute("data-serial", idx + 1);
-          div.innerHTML = `
-      <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
-      <label for="chk-${colorName}">
-        <b class="serial-link" style="cursor:pointer;color:#43e97b;" onclick="goToSerial(${idx +
-          1})">${idx + 1}.</b>
-        <span class="color-swatch" style="background:${displayHex};"></span> 
-        <code>${colorName} — ${displayHex}</code>
-      </label>
-      <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
-    `;
+div.innerHTML = `
+  <label for="chk-${colorName}" style="flex:1;display:flex;align-items:center;gap:10px;">
+    <b class="serial-link" style="cursor:pointer;color:#43e97b;" onclick="goToSerial(${idx + 1})">${idx + 1}.</b>
+    <span class="color-swatch" style="background:${displayHex};"></span> 
+    <code>${colorName} — ${displayHex}</code>
+  </label>
+  <input type='checkbox' data-target="${hex}" id="chk-${colorName}" style="margin-left:10px;">
+  <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
+`;
           container.appendChild(div);
         });
         setTimeout(() => {
