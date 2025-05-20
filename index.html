@@ -1660,6 +1660,79 @@ document.addEventListener("keydown", function (e) {
         }
       });
 
+// ...existing code...
+
+// Keyboard Shortcut Popup
+function showShortcutPopup() {
+  if (document.getElementById("shortcutPopup")) return;
+  const popup = document.createElement("div");
+  popup.id = "shortcutPopup";
+  popup.style = `
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:#23283a; color:#fff; border-radius:14px; box-shadow:0 8px 32px #000a;
+    padding:28px 28px 18px 28px; z-index:99999; min-width:320px; max-width:95vw;
+    border:2.5px solid #43e97b; font-size:16px; text-align:left;
+  `;
+  popup.innerHTML = `
+    <div style="font-size:22px;font-weight:bold;margin-bottom:12px;text-align:center;color:#43e97b;">
+      ⌨️ Keyboard Shortcuts
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:15px;">
+      <tr><td>Ctrl+O</td><td>File Upload</td></tr>
+      <tr><td>Ctrl+Z</td><td>Undo</td></tr>
+      <tr><td>Ctrl+Y</td><td>Redo</td></tr>
+      <tr><td>Ctrl+F</td><td>Search Color</td></tr>
+      <tr><td>Ctrl+R</td><td>Replace Selected</td></tr>
+      <tr><td>Ctrl+A</td><td>Select All Colors</td></tr>
+      <tr><td>Ctrl+G</td><td>Go To Serial</td></tr>
+      <tr><td>Ctrl+Shift+F</td><td>Format XML</td></tr>
+      <tr><td>Ctrl+B</td><td>Beautify XML</td></tr>
+      <tr><td>Ctrl+M</td><td>Minify XML</td></tr>
+      <tr><td>Ctrl+Shift+R</td><td>Restore Initial XML</td></tr>
+      <tr><td>Ctrl+D</td><td>Download colors.xml</td></tr>
+      <tr><td>Ctrl+Shift+S</td><td>Download theme_values.xml</td></tr>
+      <tr><td>Ctrl+Shift+D</td><td>Download theme_fallback.xml</td></tr>
+      <tr><td>Ctrl+Shift+A</td><td>Select All Colors</td></tr>
+      <tr><td>Ctrl+Shift+X</td><td>Deselect All Colors</td></tr>
+      <tr><td>Ctrl+Shift+I</td><td>Invert Selection</td></tr>
+      <tr><td>Ctrl+Shift+Del</td><td>Delete Selected Colors</td></tr>
+      <tr><td>Ctrl+Shift+Backspace</td><td>Delete All Colors</td></tr>
+      <tr><td>Ctrl+Shift+N</td><td>Focus New Color Input</td></tr>
+      <tr><td>Ctrl+Shift+Q</td><td>Refresh/Reload</td></tr>
+      <tr><td>Ctrl+Shift+L</td><td>Scroll to Live Preview</td></tr>
+      <tr><td>Escape</td><td>Blur Search/Close Popup</td></tr>
+    </table>
+    <div style="text-align:center;margin-top:18px;">
+      <button id="closeShortcutPopup" style="
+        background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%);
+        color:#23283a;font-weight:bold;font-size:16px;padding:7px 22px;
+        border:none;border-radius:8px;cursor:pointer;box-shadow:0 2px 8px #38f9d755;
+      ">Close</button>
+    </div>
+  `;
+  document.body.appendChild(popup);
+  document.getElementById("closeShortcutPopup").onclick = function() {
+    popup.remove();
+  };
+  // Escape key to close
+  document.addEventListener("keydown", function escClose(ev) {
+    if (ev.key === "Escape") {
+      if (document.getElementById("shortcutPopup")) popup.remove();
+      document.removeEventListener("keydown", escClose);
+    }
+  });
+}
+
+// Add shortcut: Ctrl+Shift+H to show popup
+document.addEventListener("keydown", function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "h") {
+    e.preventDefault();
+    showShortcutPopup();
+  }
+});
+
+// ...existing code...
+
     </script>
   </body>
 </html>
