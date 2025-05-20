@@ -407,24 +407,25 @@
         align-items: center;
         gap: 8px;
       }
-      .color-item {
-        margin: 12px 0;
+         .color-item {
         display: flex;
         align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 10px;
         padding: 8px 6px;
         border-radius: 10px;
         transition: background-color 0.3s;
         box-shadow: 0 2px 8px #0002;
         background: linear-gradient(135deg, #23283a 80%, #23283a 100%);
         border: 2.5px solid var(--border-color);
+        margin: 12px 0;
       }
       .color-item:hover {
         background: #23283a;
         box-shadow: 0 4px 16px #bb86fc33;
       }
-      .color-item input[type="checkbox"] {
+    .color-item input[type="checkbox"] {
+        order: 2;
         width: clamp(18px, 3vw, 22px);
         height: clamp(18px, 3vw, 22px);
         cursor: pointer;
@@ -439,15 +440,16 @@
         border-color: var(--accent);
         box-shadow: 0 4px 16px #bb86fc55, 0 1px 1px #fff2 inset;
       }
-      .color-item label {
+          .color-item label {
+        flex: 1 1 auto;
+        margin-right: auto;
         display: flex;
         align-items: center;
         gap: 10px;
         font-size: clamp(15px, 2.5vw, 17px);
-        flex-wrap: wrap;
-        cursor: pointer;
         font-weight: 500;
         letter-spacing: 0.2px;
+        cursor: pointer;
       }
       .color-item.selected {
         border: 2.5px solid #43e97b !important;
@@ -472,7 +474,8 @@
         flex-wrap: wrap;
         justify-content: center;
       }
-      .color-item button.delete-btn {
+          .color-item button.delete-btn {
+        order: 3;
         margin-left: 8px;
         padding: 4px 10px;
         border-radius: 6px;
@@ -629,15 +632,18 @@
           gap: 6px;
         }
         .color-item {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 6px;
-          padding: 7px 2px;
-        }
-        .color-item label code {
-          font-size: 13px;
-          word-break: break-all;
-        }
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px;
+    padding: 7px 2px;
+  }
+  .color-item button.delete-btn .delete-text {
+    display: none;
+  }
+  .color-item label code {
+    font-size: 13px;
+    word-break: break-all;
+  }
         #colorArea h3 {
           font-size: 17px;
         }
@@ -1331,7 +1337,7 @@
           }
           regex.lastIndex = 0;
         }
-        textArea.value = lines.join("\n");
+       textArea.value = lines.join("\n");
         const container = document.getElementById("colorArea");
         container.innerHTML = "<h3>🎨 Found Colors:</h3>";
         container.innerHTML += `
@@ -1350,7 +1356,9 @@
               m[1].toLowerCase().includes(f) || m[2].toLowerCase().includes(f)
           );
         }
-        if (filtered.length === 0) {
+
+        
+       if (filtered.length === 0) {
           container.innerHTML += "<p>🚫 No colors found.</p>";
           return;
         }
@@ -1361,7 +1369,7 @@
     <button onclick="deselectAllColors()">❌ Deselect All</button>
     <button onclick="invertSelection()">🔄 Invert</button>
   `;
-        container.appendChild(controlsDiv);
+       container.appendChild(controlsDiv);
         filtered.forEach((match, idx) => {
           const colorName = match[1];
           let hex = match[2];
@@ -1370,15 +1378,17 @@
           div.className = "color-item";
           div.setAttribute("data-serial", idx + 1);
           div.innerHTML = `
-  <label for="chk-${colorName}" style="flex:1;display:flex;align-items:center;gap:10px;">
+  <label for="chk-${colorName}">
     <b class="serial-link" style="cursor:pointer;color:#43e97b;" onclick="goToSerial(${idx + 1})">${idx + 1}.</b>
     <span class="color-swatch" style="background:${displayHex};"></span> 
     <code>${colorName} — ${displayHex}</code>
   </label>
-  <input type='checkbox' data-target="${hex}" id="chk-${colorName}" style="margin-left:10px;">
-  <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
+  <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
+  <button class="delete-btn" onclick="deleteColorByName('${colorName}')">
+    <span class="delete-icon">🗑️</span> <span class="delete-text">Delete</span>
+  </button>
 `;
-          container.appendChild(div);
+               container.appendChild(div);
           // Restore checked state and effect
           setTimeout(() => {
             const checkbox = div.querySelector(`#chk-${colorName}`);
@@ -1398,7 +1408,7 @@
               }
             };
           }
-          // সব চেকবক্স আনচেক করার অংশ শুধু তখনই, যখন কিছুই checked ছিল না
+  // সব চেকবক্স আনচেক করার অংশ শুধু তখনই, যখন কিছুই checked ছিল না
           const anyChecked = Object.keys(prevChecked).length > 0;
           if (!anyChecked) {
             document
@@ -1408,6 +1418,7 @@
           updateSelectedEffect();
         }, 0);
       }
+
       function selectByHex() {
         const search = document.getElementById("colorSearch");
         if (!search) return;
