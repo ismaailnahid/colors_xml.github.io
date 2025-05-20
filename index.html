@@ -301,13 +301,21 @@
   .color-item > div {
     margin-left: auto;
   }
+    .color-item button.delete-btn {
+    font-size: 20px !important;
+    padding: 4px 10px !important;
+  }
+  .color-item button.delete-btn span {
+    display: none !important;
+  }
+
 }
         .color-item label code { font-size: 13px; word-break: break-all;}
         #colorArea h3 { font-size: 17px;}
         .selection-controls { flex-direction: row !important; align-items: center !important; flex-wrap: wrap; gap: 7px; justify-content: center;}
         #scroll-arrows { right: 8px; bottom: 8px; gap: 7px;}
         #scroll-arrows button { width: 38px; height: 38px; font-size: 20px;}
-      }
+      
       @media (max-width: 400px) {
         .logo { font-size: 16px;}
         .card { padding: 4px 1vw; border-radius: 7px;}
@@ -554,7 +562,7 @@ div.innerHTML = `
   </label>
   <div style="display:flex;align-items:center;gap:6px;">
     <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
-    <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
+    <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ <span>Delete</span></button>
   </div>
 `;
     container.appendChild(div);
