@@ -463,7 +463,6 @@ function updateSelectedEffect() {
 /* =========================
    4. COLOR EXTRACTION & LIST
 ========================= */
-// ১. extractColors ফাংশন (Serial সহ Textarea-তে দেখাবে)
 function extractColors() {
   // Preserve checked state
   const prevChecked = {};
@@ -477,13 +476,23 @@ function extractColors() {
   const matches = [...text.matchAll(regex)];
   const colorMap = {};
   matches.forEach((match) => { colorMap[match[1]] = match[2]; });
-
+  let lines = text.split("\n");
+  let colorIndex = 0;
+  for (let i = 0; i < lines.length; i++) {
+    if (regex.test(lines[i])) {
+      colorIndex++;
+      lines[i] = lines[i].replace(/^(\d+\.\s*)?/, "");
+      lines[i] = colorIndex + ". " + lines[i];
+    }
+    regex.lastIndex = 0;
+  }
+  textArea.value = lines.join("\n");
   const container = document.getElementById("colorArea");
   container.innerHTML = "<h3>🎨 Found Colors:</h3>";
   container.innerHTML += `
     <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-      <input id="colorSearch" type="text" placeholder="🔍 Search color name or hex..." style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #444;background:#23283a;color:#fff;font-size:15px;">
-      <button onclick="selectByHex()" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%);color:#222;font-weight:bold;cursor:pointer;display:inline-block;">Select by Hex</button>
+      <input id="colorSearch" type="text" placeholder="🔍 Search color name or hex..." style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid #444;background:#23283a;color:#fff;font-size:15px;" value="${colorFilter || ""}">
+      <button onclick="selectByHex()" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%);color:#222;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:4px;">🎯 Filter</button>
     </div>
   `;
   let filtered = matches;
@@ -495,8 +504,6 @@ function extractColors() {
   }
   if (filtered.length === 0) {
     container.innerHTML += "<p>🚫 No colors found.</p>";
-    // সিরিয়াল সহ লাইন textarea থেকেও মুছে ফেলি
-    document.getElementById("input").value = "";
     return;
   }
   const controlsDiv = document.createElement("div");
@@ -507,9 +514,6 @@ function extractColors() {
     <button onclick="invertSelection()">🔄 Invert</button>
   `;
   container.appendChild(controlsDiv);
-
-  // Color List show + Serial সহ textarea তে বসানো
-  let serialColorText = "";
   filtered.forEach((match, idx) => {
     const colorName = match[1];
     let hex = match[2];
@@ -533,14 +537,7 @@ function extractColors() {
       if (prevChecked[checkbox.id]) checkbox.checked = true;
       checkbox.addEventListener("change", function () { updateSelectedEffect(); });
     }, 0);
-
-    // সিরিয়াল সহ কালার লাইন buildup
-    serialColorText += (idx + 1) + '. <color name="' + match[1] + '">' + match[2] + '</color>\n';
   });
-
-  // সিরিয়ালসহ কালার লাইনগুলো textarea-তে বসাও
-  document.getElementById("input").value = serialColorText.trim();
-
   setTimeout(() => {
     const search = document.getElementById("colorSearch");
     if (search) {
@@ -559,8 +556,6 @@ function extractColors() {
     updateSelectedEffect();
   }, 0);
 }
-
-
 function selectByHex() {
   const search = document.getElementById("colorSearch");
   if (!search) return;
@@ -768,18 +763,16 @@ function restoreInitialXML() {
 /* =========================
    9. DOWNLOAD & SERIAL
 ========================= */
-
 function downloadXML(filename) {
   let text = document.getElementById("input").value;
-  // সিরিয়াল নাম্বার (যেমন 1. 2. 3.) কেটে ফেলা
-  text = text.replace(/^\d+\.\s*/gm, "");
+  // সিরিয়াল নাম্বার (যেমন 1. <color ...) রিমুভ করো
+  text = text.replace(/^\s*\d+\.\s*(<color\s+name=")/gm, "$1");
   const blob = new Blob([text], { type: "text/xml" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = filename;
   a.click();
 }
-
 
 function goToSerial(num) {
   if (!num) return;
