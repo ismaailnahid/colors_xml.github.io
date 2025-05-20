@@ -194,11 +194,28 @@
       }
       /* --- Color List --- */
       .color-item {
-        margin: 12px 0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 8px 6px; border-radius: 10px;
+        margin: 12px 0; display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap;   justify-content: space-between;
+; padding: 8px 6px; border-radius: 10px;
         transition: background-color 0.3s; box-shadow: 0 2px 8px #0002;
         background: linear-gradient(135deg, #23283a 80%, #23283a 100%);
         border: 2.5px solid var(--border-color);
       }
+
+      .color-item > label {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  word-break: break-word;
+}
+.color-item > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
       .color-item:hover { background: #23283a; box-shadow: 0 4px 16px #bb86fc33;}
       .color-item input[type="checkbox"] {
         width: clamp(18px, 3vw, 22px); height: clamp(18px, 3vw, 22px); cursor: pointer; accent-color: var(--accent);
@@ -276,7 +293,15 @@
         .color-inputs input[type="text"] { width: 100%; min-width: 80px; max-width: 220px; margin: 0 auto; display: block;}
         .color-inputs label, .color-inputs span { text-align: center; width: 100%; display: block;}
         .preset-colors { gap: 6px;}
-        .color-item { flex-direction: column; align-items: flex-start; gap: 6px; padding: 7px 2px;}
+        .color-item { flex-direction: row; align-items: flex-start; gap: 6px; padding: 7px 2px;}
+          .color-item > label {
+    font-size: 13px;
+    gap: 6px;
+  }
+  .color-item > div {
+    margin-left: auto;
+  }
+}
         .color-item label code { font-size: 13px; word-break: break-all;}
         #colorArea h3 { font-size: 17px;}
         .selection-controls { flex-direction: row !important; align-items: center !important; flex-wrap: wrap; gap: 7px; justify-content: center;}
@@ -521,15 +546,17 @@ function extractColors() {
     const div = document.createElement("div");
     div.className = "color-item";
     div.setAttribute("data-serial", idx + 1);
-    div.innerHTML = `
-      <label for="chk-${colorName}" style="flex:1;display:flex;align-items:center;gap:10px;">
-        <b class="serial-link" style="cursor:pointer;color:#43e97b;" onclick="goToSerial(${idx + 1})">${idx + 1}.</b>
-        <span class="color-swatch" style="background:${displayHex};"></span> 
-        <code>${colorName} — ${displayHex}</code>
-      </label>
-      <input type='checkbox' data-target="${hex}" id="chk-${colorName}" style="margin-left:10px;">
-      <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
-    `;
+div.innerHTML = `
+  <label for="chk-${colorName}" style="flex:1;display:flex;align-items:center;gap:10px;min-width:0;">
+    <b class="serial-link" style="cursor:pointer;color:#43e97b;" onclick="goToSerial(${idx + 1})">${idx + 1}.</b>
+    <span class="color-swatch" style="background:${displayHex};"></span> 
+    <code style="word-break:break-all;">${colorName} — ${displayHex}</code>
+  </label>
+  <div style="display:flex;align-items:center;gap:6px;">
+    <input type='checkbox' data-target="${hex}" id="chk-${colorName}">
+    <button class="delete-btn" onclick="deleteColorByName('${colorName}')">🗑️ Delete</button>
+  </div>
+`;
     container.appendChild(div);
     // Restore checked state and effect
     setTimeout(() => {
